@@ -10,3 +10,6 @@ ASSETS_DIR = os.path.join(PROJECT_ROOT, 'assets')
 IMAGES_DIR = os.path.join(ASSETS_DIR, 'img')
 DATA_DIR = os.path.join(PROJECT_ROOT, 'data')
 LOGS_DIR = os.path.join(PROJECT_ROOT, 'logs')
+
+TRAY_ICON = os.path.join(IMAGES_DIR, 'trayicon.ico')
+TRAY_TOOLTIP = 'aGain'

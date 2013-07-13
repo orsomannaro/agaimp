@@ -1,51 +1,48 @@
-import os
 import wx
 import settings
 
 
-TRAY_ICON = os.path.join(settings.IMAGES_DIR, 'trayicon.ico')
-TRAY_TOOLTIP = 'aGain'
-
-
 class TaskBarIcon(wx.TaskBarIcon):
-
+    """
+    Menu sulla barra delle notifiche.
+    """
     def __init__(self):
         super(TaskBarIcon, self).__init__()
         # set icon
-        self.set_icon(TRAY_ICON)
-        # bind some events
-        self.Bind(wx.EVT_TASKBAR_LEFT_DOWN, self.on_left_down)
+        self.set_icon(settings.TRAY_ICON)
+
+        # bind wx.TaskBarIcon events
+        # self.Bind(wx.EVT_TASKBAR_CLICK, self.on_click)
+        # self.Bind(wx.EVT_TASKBAR_LEFT_DCLICK, self.on_left_dclick)
+        # self.Bind(wx.EVT_TASKBAR_LEFT_DOWN, self.on_left_down)
+        # self.Bind(wx.EVT_TASKBAR_LEFT_UP, self.on_left_up)
+        # self.Bind(wx.EVT_TASKBAR_MOVE, self.on_move)
+        # self.Bind(wx.EVT_TASKBAR_RIGHT_DCLICK, self.on_right_dclick)
+        # self.Bind(wx.EVT_TASKBAR_RIGHT_DOWN, self.on_right_down)
+        # self.Bind(wx.EVT_TASKBAR_RIGHT_UP, self.on_right_up)
+
         # voci fisse del menu
-        self.item_list = {}
+        self.menu_items = {}
         self.add_menu_item('Exit', self.on_exit)
-        self.add_menu_item('Say Hello', self.on_hello)
 
     def CreatePopupMenu(self):
         """
-        Al click-destro crea il menu in base
-        al contenuto di self.item_list.
-        E' quindi possibile aggiungere dinamicamente
-        metodi e voci del menu.
+        Al click-destro crea il menu in base al contenuto di self.menu_items.
+        E' quindi possibile aggiungere dinamicamente metodi e voci del menu.
         """
         menu = wx.Menu()
-        for label, event in self.item_list.items():
+        for label, func in self.menu_items.items():
             item = wx.MenuItem(menu, -1, label)
-            menu.Bind(wx.EVT_MENU, event, id=item.GetId())
+            menu.Bind(wx.EVT_MENU, func, id=item.GetId())
             menu.AppendItem(item)
         return menu
 
     def add_menu_item(self, label, func):
-        self.item_list[label] = func
-
-    def set_icon(self, path):
-        icon = wx.IconFromBitmap(wx.Bitmap(path))
-        self.SetIcon(icon, TRAY_TOOLTIP)
-
-    def on_left_down(self, event):
-        print 'Tray icon was left-clicked.'
-
-    def on_hello(self, event):
-        print 'Hello, world!'
+        self.menu_items[label] = func
 
     def on_exit(self, event):
         wx.CallAfter(self.Destroy)
+
+    def set_icon(self, path):
+        icon = wx.IconFromBitmap(wx.Bitmap(path))
+        self.SetIcon(icon, settings.TRAY_TOOLTIP)

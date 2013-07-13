@@ -22,7 +22,7 @@ class TaskBarIcon(wx.TaskBarIcon):
         # self.Bind(wx.EVT_TASKBAR_RIGHT_UP, self.on_right_up)
 
         # voci fisse del menu
-        self.menu_items = {}
+        self.menu_items = []
         self.add_menu_item('Exit', self.on_exit)
 
     def CreatePopupMenu(self):
@@ -31,14 +31,14 @@ class TaskBarIcon(wx.TaskBarIcon):
         E' quindi possibile aggiungere dinamicamente metodi e voci del menu.
         """
         menu = wx.Menu()
-        for label, func in self.menu_items.items():
+        for label, func in reversed(self.menu_items):
             item = wx.MenuItem(menu, -1, label)
             menu.Bind(wx.EVT_MENU, func, id=item.GetId())
             menu.AppendItem(item)
         return menu
 
     def add_menu_item(self, label, func):
-        self.menu_items[label] = func
+        self.menu_items.append((label, func))
 
     def on_exit(self, event):
         wx.CallAfter(self.Destroy)

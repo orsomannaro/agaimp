@@ -10,10 +10,10 @@
 import wx
 
 ###########################################################################
-## Class Main_Frame
+## Class Paramenters
 ###########################################################################
 
-class Main_Frame ( wx.Frame ):
+class Paramenters ( wx.Frame ):
 	
 	def __init__( self, parent ):
 		wx.Frame.__init__ ( self, parent, id = wx.ID_ANY, title = u"aGain import - parametri", pos = wx.DefaultPosition, size = wx.Size( 500,300 ), style = wx.DEFAULT_FRAME_STYLE|wx.TAB_TRAVERSAL )

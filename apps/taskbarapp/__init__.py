@@ -11,7 +11,7 @@ class TaskBarIcon(wx.TaskBarIcon):
         # set icon
         self.set_icon(settings.TRAY_ICON)
 
-        # bind wx.TaskBarIcon events
+        # bind wx.taskbarapp events
         # self.Bind(wx.EVT_TASKBAR_CLICK, self.on_click)
         # self.Bind(wx.EVT_TASKBAR_LEFT_DCLICK, self.on_left_dclick)
         # self.Bind(wx.EVT_TASKBAR_LEFT_DOWN, self.on_left_down)

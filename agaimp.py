@@ -4,7 +4,7 @@ import os
 import sys
 import wx
 
-from apps.TaskBarIcon import TaskBarIcon
+from apps.taskbarapp import TaskBarIcon
 
 
 def again_import(event):

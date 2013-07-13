@@ -5,6 +5,7 @@ import sys
 import wx
 
 from apps.taskbarapp import TaskBarIcon
+from apps.parameters import Paramenters
 
 
 def again_import(event):
@@ -20,6 +21,8 @@ def main():
     tb = TaskBarIcon()
     tb.add_menu_item('Parametri', again_parameters)
     tb.add_menu_item('Import', again_import)
+    param = Paramenters(None)
+    param.Show()
     app.MainLoop()
 
 

@@ -4,25 +4,28 @@ import os
 import sys
 import wx
 
+
+from apps.Importer import importer
 from apps.taskbarapp import TaskBarIcon
 from apps.parameters import Paramenters
 
 
-def again_import(event):
-    print 'Import!'
-
-
-def again_parameters(event):
-    print 'Parametri!'
+def parameters(event):
+    """
+    :param event:
+    """
+    param = Paramenters(None)
+    param.Show()
 
 
 def main():
+    """
+    main
+    """
     app = wx.App()
     tb = TaskBarIcon()
-    tb.add_menu_item('Parametri', again_parameters)
-    tb.add_menu_item('Import', again_import)
-    param = Paramenters(None)
-    param.Show()
+    tb.add_menu_item('Parametri', parameters)
+    importer.start()
     app.MainLoop()
 
 

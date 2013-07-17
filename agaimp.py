@@ -5,9 +5,10 @@ import sys
 import wx
 
 
-from apps.Importer import importer
+from apps.importer import importer
 from apps.taskbarapp import TaskBarIcon
 from apps.parameters import Paramenters
+from apps.userauth import authenticate
 
 
 def parameters(event):
@@ -18,14 +19,21 @@ def parameters(event):
     param.Show()
 
 
+@authenticate
+def import_data():
+    importer.start()
+
+
 def main():
     """
     main
     """
     app = wx.App()
+    # creazione del menu
     tb = TaskBarIcon()
     tb.add_menu_item('Parametri', parameters)
-    importer.start()
+    # importazione dati
+    import_data()
     app.MainLoop()
 
 

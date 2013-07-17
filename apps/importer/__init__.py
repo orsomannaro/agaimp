@@ -1,3 +1,5 @@
+import datetime
+
 from apscheduler.scheduler import Scheduler
 
 from apps.userauth import authenticate
@@ -6,19 +8,25 @@ from apps.userauth import authenticate
 scheduler = Scheduler()
 
 
-#@server('sigma')
-#@scheduler.cron_schedule(day_of_week='mon-fri', hour=17)
-#@authenticate
+#@authenticate(server = 'sigma')
 def import_sigma():
     """
     Impostazione dati dal server SIGMA
     """
+    print datetime.datetime.now().strftime("%H:%M:%S.%f")
     print "Import da SIGMA"
-    pass
 
 
-def start():
-    scheduler.add_interval_job(import_sigma, seconds=2)
+def execute():
+    import_sigma()
+
+
+def shutdown():
+    scheduler.shutdown()
+
+
+def schedule():
+    scheduler.add_interval_job(import_sigma, seconds=3)
 
 
 def stop():
@@ -28,5 +36,3 @@ def stop():
 
 
 scheduler.start()
-
-

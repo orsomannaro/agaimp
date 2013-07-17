@@ -18,3 +18,11 @@ class Paramenters(agaimparam_form.Paramenters):
     def OnAnnullaClick(self, event):
         # TODO: Implement OnAnnullaClick
         pass
+
+
+def paramenters_menu(event):
+    """
+    :param event:
+    """
+    param = Paramenters(None)
+    param.Show()

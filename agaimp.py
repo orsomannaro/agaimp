@@ -5,20 +5,29 @@ import sys
 import wx
 
 
-from apps.importer import importer
-from apps.taskbarapp import taskbarapp
-from apps.parameters import paramenters_menu
+from apps import importer
+from apps.parameters import Paramenters
+from apps.systrayapp import TaskBarIcon
 
 
-
-def main():
+def menu_paramenters(event):
     """
-    main
+    Visualizza la finestra dei parametri.
+
+    :param event:
+     parametro tornato quando viene cliccato il tasto sinistro
+     su una voce di un menu wx.TaskBarIcon.
     """
-    app = wx.App()
-    taskbarapp.add_menu_item('Parametri', paramenters_menu)
+    agaimp_param = Paramenters(None)
+    agaimp_param.Show()
+
+
+def menu_start(event):
     importer.start()
-    app.MainLoop()
+
+
+def menu_stop(event):
+    importer.stop()
 
 
 if __name__ == '__main__':
@@ -26,5 +35,11 @@ if __name__ == '__main__':
     PROJECT_ROOT = os.path.dirname(__file__)
     sys.path.insert(0, os.path.join(PROJECT_ROOT, 'apps'))
     sys.path.insert(0, os.path.join(PROJECT_ROOT, 'libs'))
-    # Run
-    main()
+    app = wx.App()
+    # Iniziallizza e avvia app su systray
+    agaimp_app = TaskBarIcon()
+    agaimp_app.add_menu_item('Parametri', menu_paramenters)
+    agaimp_app.add_menu_item('Start', menu_start)
+    agaimp_app.add_menu_item('Stop', menu_stop)
+    importer.start()
+    app.MainLoop()

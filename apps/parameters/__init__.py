@@ -4,7 +4,7 @@
 from views import agaimparam_form
 
 
-class Paramenters(agaimparam_form.Paramenters):
+class ParamentersForm(agaimparam_form.Paramenters):
     """
     Form di gestione parametri di configurazione.
     """
@@ -19,3 +19,14 @@ class Paramenters(agaimparam_form.Paramenters):
         # TODO: Implement OnAnnullaClick
         pass
 
+
+class Paramenters(object):
+
+    def usr(self):
+        return
+
+    def pwd(self):
+        return
+
+
+agaimparam = Paramenters()

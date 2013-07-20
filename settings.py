@@ -13,3 +13,5 @@ LOGS_DIR = os.path.join(PROJECT_ROOT, 'logs')
 
 TRAY_ICON = os.path.join(IMAGES_DIR, 'trayicon.ico')
 TRAY_TOOLTIP = 'aGain'
+
+AGAIN_URL = ''

@@ -23,9 +23,11 @@ class ParamentersForm(agaimparam_form.Paramenters):
 class Paramenters(object):
 
     def usr(self):
+        # TODO: ricavare il nome utente
         return
 
     def pwd(self):
+        # TODO: ricavare la password
         return
 
 

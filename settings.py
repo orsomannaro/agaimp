@@ -15,3 +15,4 @@ TRAY_ICON = os.path.join(IMAGES_DIR, 'trayicon.ico')
 TRAY_TOOLTIP = 'aGain'
 
 AGAIN_URL = ''
+AGAIN_URL_SSL = ''

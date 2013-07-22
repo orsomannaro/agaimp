@@ -6,7 +6,7 @@ import wx
 
 
 from apps import importer
-from apps.parameters import Paramenters
+from apps.parameters import ParamentersForm
 from apps.systrayapp import TaskBarIcon
 
 
@@ -14,7 +14,7 @@ def menu_paramenters(event):
     """
     Visualizza la finestra dei parametri.
     """
-    agaimp_param = Paramenters(None)
+    agaimp_param = ParamentersForm(None)
     agaimp_param.Show()
 
 

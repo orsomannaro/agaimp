@@ -1,0 +1,7 @@
+APScheduler==2.1.1
+argparse==1.2.1
+distribute==0.7.3
+requests==1.2.3
+wsgiref==0.1.2
+wxPython==2.8.12.1
+wxPython-common==2.8.12.1

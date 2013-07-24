@@ -5,6 +5,7 @@ PROJECT_ROOT = os.path.abspath(os.path.dirname(__file__))
 PROJECT_NAME = os.path.basename(PROJECT_ROOT)
 
 SECRET_KEY = '@@h5gtm9=t@)ug7fc*fv)627l(py3^fh%2yxm8x5s16ah+ler+'
+PARAM_FILE = os.path.join(PROJECT_ROOT, 'param.json')
 
 ASSETS_DIR = os.path.join(PROJECT_ROOT, 'assets')
 IMAGES_DIR = os.path.join(ASSETS_DIR, 'img')

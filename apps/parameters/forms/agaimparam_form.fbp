@@ -50,7 +50,7 @@
             <property name="window_name"></property>
             <property name="window_style">wxTAB_TRAVERSAL</property>
             <property name="xrc_skip_sizer">1</property>
-            <event name="OnActivate"></event>
+            <event name="OnActivate">OnLoadData</event>
             <event name="OnActivateApp"></event>
             <event name="OnChar"></event>
             <event name="OnClose"></event>
@@ -172,7 +172,7 @@
                                             <property name="label">Importer ID</property>
                                             <property name="maximum_size"></property>
                                             <property name="minimum_size"></property>
-                                            <property name="name">m_staticText_id</property>
+                                            <property name="name">text_id</property>
                                             <property name="permission">protected</property>
                                             <property name="pos"></property>
                                             <property name="size"></property>
@@ -228,7 +228,7 @@
                                             <property name="maximum_size"></property>
                                             <property name="maxlength">0</property>
                                             <property name="minimum_size"></property>
-                                            <property name="name">m_textCtrl_id</property>
+                                            <property name="name">param_id</property>
                                             <property name="permission">protected</property>
                                             <property name="pos"></property>
                                             <property name="size"></property>
@@ -288,7 +288,7 @@
                                             <property name="label">username</property>
                                             <property name="maximum_size"></property>
                                             <property name="minimum_size"></property>
-                                            <property name="name">m_staticText_username</property>
+                                            <property name="name">text_username</property>
                                             <property name="permission">protected</property>
                                             <property name="pos"></property>
                                             <property name="size"></property>
@@ -344,7 +344,7 @@
                                             <property name="maximum_size"></property>
                                             <property name="maxlength">0</property>
                                             <property name="minimum_size"></property>
-                                            <property name="name">m_textCtrl_username</property>
+                                            <property name="name">param_username</property>
                                             <property name="permission">protected</property>
                                             <property name="pos"></property>
                                             <property name="size"></property>
@@ -404,7 +404,7 @@
                                             <property name="label">password</property>
                                             <property name="maximum_size"></property>
                                             <property name="minimum_size"></property>
-                                            <property name="name">m_staticText_password</property>
+                                            <property name="name">text_password</property>
                                             <property name="permission">protected</property>
                                             <property name="pos"></property>
                                             <property name="size"></property>
@@ -460,7 +460,7 @@
                                             <property name="maximum_size"></property>
                                             <property name="maxlength">0</property>
                                             <property name="minimum_size"></property>
-                                            <property name="name">m_textCtrl_password</property>
+                                            <property name="name">param_password</property>
                                             <property name="permission">protected</property>
                                             <property name="pos"></property>
                                             <property name="size"></property>

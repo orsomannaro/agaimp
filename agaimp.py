@@ -6,7 +6,7 @@ import wx
 
 
 from apps import importer
-from apps.parameters.views import edit_param
+from apps.localparam.views import edit_param
 from apps.systrayapp import TaskBarIcon
 
 

@@ -285,10 +285,10 @@
                                             <property name="font"></property>
                                             <property name="hidden">0</property>
                                             <property name="id">wxID_ANY</property>
-                                            <property name="label">username</property>
+                                            <property name="label">IP DELTA</property>
                                             <property name="maximum_size"></property>
                                             <property name="minimum_size"></property>
-                                            <property name="name">text_username</property>
+                                            <property name="name">text_ip_delta</property>
                                             <property name="permission">protected</property>
                                             <property name="pos"></property>
                                             <property name="size"></property>
@@ -344,7 +344,7 @@
                                             <property name="maximum_size"></property>
                                             <property name="maxlength">0</property>
                                             <property name="minimum_size"></property>
-                                            <property name="name">param_username</property>
+                                            <property name="name">param_ip_delta</property>
                                             <property name="permission">protected</property>
                                             <property name="pos"></property>
                                             <property name="size"></property>
@@ -401,10 +401,10 @@
                                             <property name="font"></property>
                                             <property name="hidden">0</property>
                                             <property name="id">wxID_ANY</property>
-                                            <property name="label">password</property>
+                                            <property name="label">IP SIGMA</property>
                                             <property name="maximum_size"></property>
                                             <property name="minimum_size"></property>
-                                            <property name="name">text_password</property>
+                                            <property name="name">text_ip_sigma</property>
                                             <property name="permission">protected</property>
                                             <property name="pos"></property>
                                             <property name="size"></property>
@@ -460,7 +460,7 @@
                                             <property name="maximum_size"></property>
                                             <property name="maxlength">0</property>
                                             <property name="minimum_size"></property>
-                                            <property name="name">param_password</property>
+                                            <property name="name">param_ip_sigma</property>
                                             <property name="permission">protected</property>
                                             <property name="pos"></property>
                                             <property name="size"></property>

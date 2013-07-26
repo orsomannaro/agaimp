@@ -2,13 +2,13 @@ import datetime
 
 from apscheduler.scheduler import Scheduler
 
-from apps.againauth import authenticate
+from apps.userauth import server, SIGMA_AUTH
 
 
 scheduler = Scheduler()
 
 
-@authenticate
+@server(SIGMA_AUTH)
 def import_sigma():
     """
     Impostazione dati dal server SIGMA

@@ -2,8 +2,9 @@ import uuid
 
 from settings import PARAM_FILE
 
-
-UUID_PARAM = 'param_uuid'
+PARAM_PREFIX = 'param_'
+UUID_PARAM = PARAM_PREFIX + 'uuid'
+IP_SIGMA_PARAM = PARAM_PREFIX + 'ip_sigma'
 
 
 def init_param():

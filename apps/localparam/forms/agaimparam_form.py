@@ -37,19 +37,19 @@ class Paramenters ( wx.Frame ):
 		self.param_uuid = wx.TextCtrl( self.m_panel_main, wx.ID_ANY, wx.EmptyString, wx.DefaultPosition, wx.DefaultSize, wx.TE_READONLY )
 		fgSizer_parameters.Add( self.param_uuid, 0, wx.ALL|wx.EXPAND, 5 )
 		
-		self.text_username = wx.StaticText( self.m_panel_main, wx.ID_ANY, u"username", wx.DefaultPosition, wx.DefaultSize, 0 )
-		self.text_username.Wrap( -1 )
-		fgSizer_parameters.Add( self.text_username, 0, wx.ALL|wx.ALIGN_RIGHT, 5 )
+		self.text_ip_delta = wx.StaticText( self.m_panel_main, wx.ID_ANY, u"IP DELTA", wx.DefaultPosition, wx.DefaultSize, 0 )
+		self.text_ip_delta.Wrap( -1 )
+		fgSizer_parameters.Add( self.text_ip_delta, 0, wx.ALL|wx.ALIGN_RIGHT, 5 )
 		
-		self.param_username = wx.TextCtrl( self.m_panel_main, wx.ID_ANY, wx.EmptyString, wx.DefaultPosition, wx.DefaultSize, 0 )
-		fgSizer_parameters.Add( self.param_username, 0, wx.ALL|wx.EXPAND, 5 )
+		self.param_ip_delta = wx.TextCtrl( self.m_panel_main, wx.ID_ANY, wx.EmptyString, wx.DefaultPosition, wx.DefaultSize, 0 )
+		fgSizer_parameters.Add( self.param_ip_delta, 0, wx.ALL|wx.EXPAND, 5 )
 		
-		self.text_password = wx.StaticText( self.m_panel_main, wx.ID_ANY, u"password", wx.DefaultPosition, wx.DefaultSize, 0 )
-		self.text_password.Wrap( -1 )
-		fgSizer_parameters.Add( self.text_password, 0, wx.ALL|wx.ALIGN_RIGHT, 5 )
+		self.text_ip_sigma = wx.StaticText( self.m_panel_main, wx.ID_ANY, u"IP SIGMA", wx.DefaultPosition, wx.DefaultSize, 0 )
+		self.text_ip_sigma.Wrap( -1 )
+		fgSizer_parameters.Add( self.text_ip_sigma, 0, wx.ALL|wx.ALIGN_RIGHT, 5 )
 		
-		self.param_password = wx.TextCtrl( self.m_panel_main, wx.ID_ANY, wx.EmptyString, wx.DefaultPosition, wx.DefaultSize, 0 )
-		fgSizer_parameters.Add( self.param_password, 0, wx.ALL|wx.EXPAND, 5 )
+		self.param_ip_sigma = wx.TextCtrl( self.m_panel_main, wx.ID_ANY, wx.EmptyString, wx.DefaultPosition, wx.DefaultSize, 0 )
+		fgSizer_parameters.Add( self.param_ip_sigma, 0, wx.ALL|wx.EXPAND, 5 )
 		
 		bSizer_body.Add( fgSizer_parameters, 1, wx.EXPAND, 5 )
 		

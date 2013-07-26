@@ -7,7 +7,7 @@ NOTA: il nome di un campo che identifica un parametro DEVE iniziare per 'param_'
 import wx
 
 from .forms import agaimparam_form
-from .models import load_param, save_param
+from .models import load_param, save_param, UUID_PARAM
 
 
 class agaimparamParamenters(agaimparam_form.Paramenters):
@@ -43,3 +43,8 @@ def edit_param():
     """
     form = agaimparamParamenters(None)
     form.Show()
+
+
+def get_uuid():
+    params = load_param()
+    return params[UUID_PARAM]

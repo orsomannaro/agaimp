@@ -6,20 +6,18 @@ import wx
 
 
 from apps import importer
-from apps.parameters import agaimparam
+from apps.parameters.views import edit_param
 from apps.systrayapp import TaskBarIcon
 
 
 def menu_paramenters(event):
+    """ Visualizza la finestra dei parametri.
     """
-    Visualizza la finestra dei parametri.
-    """
-    agaimparam.edit()
+    edit_param()
 
 
 def menu_force(event):
-    """
-    Forza l'esecuzione degli importer.
+    """ Forza l'esecuzione degli importer.
     """
     importer.execute()
 

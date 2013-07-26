@@ -1,6 +1,5 @@
 import requests
 
-from apps.parameters import agaimparam
 from settings import AGAIN_URL
 
 

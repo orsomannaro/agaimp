@@ -1,21 +1,33 @@
-from forms.agaimparamParamenters import agaimparamParamenters
+import uuid
+
+from settings import PARAM_FILE
 
 
-class AgaimpParamenters(object):
+def load_param():
+    """ Carica parametri da file.
     """
-    Gestisce i parametri di aGaimp.
-    I parametri sono salvati in self.file_name in formato json.
+    import json
+
+    try:
+        with open(PARAM_FILE, 'r') as f:
+            json_param = json.load(f)
+        params = json.loads(json_param)
+        return params
+    except:
+        raise
+
+
+def save_param(params):
+    """ Salva parametri su file.
+    :param params: dizionario contenete i parametri
     """
-    def __init__(self, param_file_name):
-        self.file_name = param_file_name + '.json'
+    import json
 
-    def edit(self):
-        """ Usa una wxForm (AgaimpParamentersForm) per editare i parametri.
-        """
-        self.form = agaimparamParamenters(None)
-        self.form.Show()
-
-
-
-    def save_data(self):
-        pass
+    if not 'param_uuid' in params:
+        params['param_uuid'] = str(uuid.uuid4())  # primo salvataggio
+    json_param = json.dumps(params)
+    try:
+        with open(PARAM_FILE, 'w') as f:
+            json.dump(json_param, f)
+    except:
+        raise

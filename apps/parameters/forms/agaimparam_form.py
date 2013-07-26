@@ -30,12 +30,12 @@ class Paramenters ( wx.Frame ):
 		fgSizer_parameters.SetFlexibleDirection( wx.BOTH )
 		fgSizer_parameters.SetNonFlexibleGrowMode( wx.FLEX_GROWMODE_SPECIFIED )
 		
-		self.text_id = wx.StaticText( self.m_panel_main, wx.ID_ANY, u"Importer ID", wx.DefaultPosition, wx.DefaultSize, 0 )
-		self.text_id.Wrap( -1 )
-		fgSizer_parameters.Add( self.text_id, 0, wx.ALL|wx.ALIGN_RIGHT, 5 )
+		self.text_uuid = wx.StaticText( self.m_panel_main, wx.ID_ANY, u"Importer ID", wx.DefaultPosition, wx.DefaultSize, 0 )
+		self.text_uuid.Wrap( -1 )
+		fgSizer_parameters.Add( self.text_uuid, 0, wx.ALL|wx.ALIGN_RIGHT, 5 )
 		
-		self.param_id = wx.TextCtrl( self.m_panel_main, wx.ID_ANY, wx.EmptyString, wx.DefaultPosition, wx.DefaultSize, wx.TE_READONLY )
-		fgSizer_parameters.Add( self.param_id, 0, wx.ALL|wx.EXPAND, 5 )
+		self.param_uuid = wx.TextCtrl( self.m_panel_main, wx.ID_ANY, wx.EmptyString, wx.DefaultPosition, wx.DefaultSize, wx.TE_READONLY )
+		fgSizer_parameters.Add( self.param_uuid, 0, wx.ALL|wx.EXPAND, 5 )
 		
 		self.text_username = wx.StaticText( self.m_panel_main, wx.ID_ANY, u"username", wx.DefaultPosition, wx.DefaultSize, 0 )
 		self.text_username.Wrap( -1 )

@@ -1,24 +1,33 @@
+"""
+I parametri vengono formattati in json e salvati in un file.
+
+Si e' scelto di non tenere i parametri in memoria ma di leggerli da file alla bisogna.
+Per questo motivo non li si e' gestiti con una classe.
+"""
+
 import uuid
 
 from settings import PARAM_FILE
 
+
 PARAM_PREFIX = 'param_'
-UUID_PARAM = PARAM_PREFIX + 'uuid'
-IP_SIGMA_PARAM = PARAM_PREFIX + 'ip_sigma'
+UUID_PARAM = PARAM_PREFIX + 'uuid'  # identificativo dell'installazione
+IP_DELTA_PARAM = PARAM_PREFIX + 'ip_delta'  # indirizzo IP del server DELTA
+IP_SIGMA_PARAM = PARAM_PREFIX + 'ip_sigma'  # indirizzo IP del server SIGMA
 
 
 def init_param():
-    """ Inizializzazione parametri.
-    Impostazione dei parametri non editabili.
+    """ Creazione parametri.
+    Inizializzazione dei parametri non editabili.
     """
-    params = {UUID_PARAM: str(uuid.uuid4())}  # identificativo dell'installazione
+    params = {UUID_PARAM: str(uuid.uuid4())}
     save_param(params)
     return params
 
 
 def load_param():
-    """ Carica parametri da file.
-    Se il file se non esiste richiede l'inizializzazione dei parametri.
+    """ Carica i parametri.
+    Se il parametri non esistono lo crea e inizializza.
     """
     import json
 
@@ -32,7 +41,7 @@ def load_param():
 
 
 def save_param(params):
-    """ Salva parametri su file.
+    """ Salva i parametri.
     :param params: dizionario contenete i parametri
     """
     import json

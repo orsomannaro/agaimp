@@ -35,8 +35,9 @@ if __name__ == '__main__':
     # Esecuzione e schedulazione importer
     try:
         importer.execute()
-    except IndexError:
-        pass
+    except:
+        print 'errore eseguendo importer'
+        raise
     else:
         importer.schedule()
     app.MainLoop()

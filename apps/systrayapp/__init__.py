@@ -25,6 +25,10 @@ class TaskBarIcon(wx.TaskBarIcon):
         # voci fisse del menu
         self.menu_items = []
         self.add_menu_item('Exit', self.on_exit)
+        # self.frame serve per osx che
+        # altrimenti esce subito dal MainLoop
+        # (si potrebbe pensare di associarlo alla form per i parametri).
+        self.frame = wx.Frame(None)
 
     def CreatePopupMenu(self):
         """
@@ -42,6 +46,7 @@ class TaskBarIcon(wx.TaskBarIcon):
         self.menu_items.append((label, func))
 
     def on_exit(self, event):
+        self.frame.Close()
         wx.CallAfter(self.Destroy)
 
     def set_icon(self, path):

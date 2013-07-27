@@ -17,19 +17,53 @@ IP_SIGMA_PARAM = PARAM_PREFIX + 'ip_sigma'  # indirizzo IP del server SIGMA
 
 
 class AgaimParam(object):
+    PARAM_PREFIX = 'param_'
+    UUID_PARAM = PARAM_PREFIX + 'uuid'  # identificativo dell'installazione
+    IP_DELTA_PARAM = PARAM_PREFIX + 'ip_delta'  # indirizzo IP del server DELTA
+    IP_SIGMA_PARAM = PARAM_PREFIX + 'ip_sigma'  # indirizzo IP del server SIGMA
+
     def __index__(self, file_name):
         self.file_name = file_name
-        self.params = self.load()
+        self._params = self.load() or self.init()
 
     def init(self):
-        pass
+        params = {
+            self.UUID_PARAM: str(uuid.uuid4()),
+            self.IP_DELTA_PARAM: '0.0.0.0',
+            self.IP_SIGMA_PARAM: '0.0.0.0',
+        }
+        self.save(params)
+        return params
 
     def load(self):
-        pass
+        import json
 
-    def save(self):
-        pass
+        try:
+            with open(self.file_name, 'r') as f:
+                json_param = json.load(f)
+            params = json.loads(json_param)
+        except:
+            return {}
+        return params
 
+    def save(self, params):
+        import json
+
+        try:
+            json_param = json.dumps(params)
+            with open(self.file_name, 'w') as f:
+                json.dump(json_param, f)
+        except:
+            #TODO: gestire eccezione
+            raise
+
+    @property
+    def params(self):
+        return self._params
+
+    @params.setter
+    def params(self, param, value):
+        self._params[param] = value
 
 def init_param():
     """ Creazione parametri.

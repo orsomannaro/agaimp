@@ -16,6 +16,21 @@ IP_DELTA_PARAM = PARAM_PREFIX + 'ip_delta'  # indirizzo IP del server DELTA
 IP_SIGMA_PARAM = PARAM_PREFIX + 'ip_sigma'  # indirizzo IP del server SIGMA
 
 
+class AgaimParam(object):
+    def __index__(self, file_name):
+        self.file_name = file_name
+        self.params = self.load()
+
+    def init(self):
+        pass
+
+    def load(self):
+        pass
+
+    def save(self):
+        pass
+
+
 def init_param():
     """ Creazione parametri.
     Inizializzazione dei parametri non editabili.

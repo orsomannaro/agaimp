@@ -1,56 +1,55 @@
 """
 I parametri vengono formattati in json e salvati in un file.
-
-Si e' scelto di non tenere i parametri in memoria ma di leggerli da file alla bisogna.
-Per questo motivo non li si e' gestiti con una classe.
 """
 
+import os
 import uuid
 
-from settings import PARAM_FILE
 
+class LocalParam(object):
+    """ Parametri locali.
+    """
+    PARAM_UUID = 'param_uuid'  # identificativo dell'installazione
+    PARAM_IP_DELTA = 'param_ip_delta'  # indirizzo IP del server DELTA
+    PARAM_IP_SIGMA = 'param_ip_sigma'  # indirizzo IP del server SIGMA
 
-PARAM_PREFIX = 'param_'
-UUID_PARAM = PARAM_PREFIX + 'uuid'  # identificativo dell'installazione
-IP_DELTA_PARAM = PARAM_PREFIX + 'ip_delta'  # indirizzo IP del server DELTA
-IP_SIGMA_PARAM = PARAM_PREFIX + 'ip_sigma'  # indirizzo IP del server SIGMA
-
-
-class AgaimParam(object):
-    PARAM_PREFIX = 'param_'
-    UUID_PARAM = PARAM_PREFIX + 'uuid'  # identificativo dell'installazione
-    IP_DELTA_PARAM = PARAM_PREFIX + 'ip_delta'  # indirizzo IP del server DELTA
-    IP_SIGMA_PARAM = PARAM_PREFIX + 'ip_sigma'  # indirizzo IP del server SIGMA
-
-    def __index__(self, file_name):
+    def __init__(self, file_name):
         self.file_name = file_name
-        self._params = self.load() or self.init()
+        if not os.path.isfile(self.file_name):
+            self.create()
+            self.save()
+        else:
+            self.load()
 
-    def init(self):
-        params = {
-            self.UUID_PARAM: str(uuid.uuid4()),
-            self.IP_DELTA_PARAM: '0.0.0.0',
-            self.IP_SIGMA_PARAM: '0.0.0.0',
+    def create(self):
+        """ Inizializza e crea i parametri.
+        """
+        self.params = {
+            self.PARAM_UUID: str(uuid.uuid4()),
+            self.PARAM_IP_DELTA: '0.0.0.0',
+            self.PARAM_IP_SIGMA: '0.0.0.0',
         }
-        self.save(params)
-        return params
 
     def load(self):
+        """ Carica i parametri dal file.
+        """
         import json
 
         try:
             with open(self.file_name, 'r') as f:
                 json_param = json.load(f)
-            params = json.loads(json_param)
+            self.params = json.loads(json_param)
         except:
-            return {}
-        return params
+            #TODO: gestire eccezione
+            raise
 
-    def save(self, params):
+    def save(self):
+        """ Salva i parametri sul file.
+        """
         import json
 
         try:
-            json_param = json.dumps(params)
+            json_param = json.dumps(self.params)
             with open(self.file_name, 'w') as f:
                 json.dump(json_param, f)
         except:
@@ -58,46 +57,25 @@ class AgaimParam(object):
             raise
 
     @property
-    def params(self):
-        return self._params
+    def param_uuid(self):
+        return self.params[self.PARAM_UUID]
 
-    @params.setter
-    def params(self, param, value):
-        self._params[param] = value
+    @param_uuid.setter
+    def param_uuid(self, value):
+        self.params[self.PARAM_UUID] = value
 
-def init_param():
-    """ Creazione parametri.
-    Inizializzazione dei parametri non editabili.
-    """
-    params = {UUID_PARAM: str(uuid.uuid4())}
-    save_param(params)
-    return params
+    @property
+    def param_ip_delta(self):
+        return self.params[self.PARAM_IP_DELTA]
 
+    @param_ip_delta.setter
+    def param_ip_delta(self, value):
+        self.params[self.PARAM_IP_DELTA] = value
 
-def load_param():
-    """ Carica i parametri.
-    Se il parametri non esistono lo crea e inizializza.
-    """
-    import json
+    @property
+    def param_ip_sigma(self):
+        return self.params[self.PARAM_IP_SIGMA]
 
-    try:
-        with open(PARAM_FILE, 'r') as f:
-            json_param = json.load(f)
-        params = json.loads(json_param)
-        return params
-    except IOError:
-        return init_param()  # Creazione parametri.
-
-
-def save_param(params):
-    """ Salva i parametri.
-    :param params: dizionario contenete i parametri
-    """
-    import json
-
-    try:
-        json_param = json.dumps(params)
-        with open(PARAM_FILE, 'w') as f:
-            json.dump(json_param, f)
-    except:
-        raise
+    @param_ip_sigma.setter
+    def param_ip_sigma(self, value):
+        self.params[self.PARAM_IP_SIGMA] = value

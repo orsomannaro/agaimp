@@ -2,7 +2,7 @@ import requests
 
 from settings import AGAIN_URL
 
-from apps.localparam import local_param
+from apps.localparam import params
 
 
 DELTA_AUTH = 'delta_auth'
@@ -38,7 +38,7 @@ def login():
     """
     global user_auth
 
-    usr = local_param.param_uuid
+    usr = params.param_uuid
     pwd = get_pwd(usr)
     #req = requests.get(AGAIN_URL, auth=(usr, pwd))
     req = requests.get('https://github.com/orsomannaro', auth=('orsomannaro', 'lewis501'))

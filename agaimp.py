@@ -4,16 +4,16 @@ import os
 import sys
 import wx
 
-
 from apps import importer
-from apps.localparam.views import edit_param
+from apps.localparam import params
+from apps.localparam.controllers import EditParams
 from apps.systrayapp import TaskBarIcon
 
 
 def menu_paramenters(event):
     """ Visualizza la finestra dei parametri.
     """
-    edit_param()
+    EditParams(None, params)
 
 
 def menu_force(event):
@@ -31,7 +31,7 @@ if __name__ == '__main__':
     # Iniziallizzazione e avvio app su systray
     agaimp_app = TaskBarIcon()
     agaimp_app.add_menu_item('Parametri', menu_paramenters)
-    agaimp_app.add_menu_item('Force', menu_force)
+    agaimp_app.add_menu_item('Force import', menu_force)
     # Esecuzione e schedulazione importer
     try:
         importer.execute()
@@ -41,4 +41,5 @@ if __name__ == '__main__':
     else:
         importer.schedule()
     app.MainLoop()
+    params.save()
     importer.shutdown()

@@ -18,7 +18,10 @@ def import_sigma():
 
 
 def execute():
-    import_sigma()
+    try:
+        import_sigma()
+    except:
+        print 'errore su execute'
 
 
 def shutdown():

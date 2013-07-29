@@ -2,12 +2,13 @@
 
 import os
 import sys
+
 import wx
 
 from apps import importer
 from apps.localparam import params
 from apps.localparam.controllers import EditParams
-from apps.systrayapp import TaskBarIcon
+from apps.systrayapp.views import TaskBarIcon
 
 
 def menu_paramenters(event):

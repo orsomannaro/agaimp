@@ -14,10 +14,9 @@ def authenticate(func):
     Decorator for methods, which require authentication.
     """
     def authenticate_and_call(*args, **kwargs):
-        if not login():
-            raise Exception('Authentication Failed.')
-        #print 'autentificato'
-        return func(*args, **kwargs)
+        if login():
+            return func(*args, **kwargs)
+        raise Exception
     return authenticate_and_call
 
 
@@ -40,10 +39,11 @@ def login():
 
     usr = params.param_uuid
     pwd = get_pwd(usr)
-    #req = requests.get(AGAIN_URL, auth=(usr, pwd))
-    req = requests.get('https://github.com/orsomannaro', auth=('orsomannaro', 'lewis501'))
+    #req = requests.get(AGAIN_URL, auth=(usr, pwd), timeout = 5)
+    req = requests.get('https://api.github.com/', auth=('orsomannaro@gmail.com', 'lewis501'))
     if req.ok:
         # Recupero dalla web-app il dizionario con autorizzazioni dell'utente
+        #user_auth = req.json()
         user_auth = {SIGMA_AUTH: True}
     return req.ok
 

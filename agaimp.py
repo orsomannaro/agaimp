@@ -5,10 +5,13 @@ import sys
 
 import wx
 
-from apps import importer
+from apps.importer.controllers import get_importer
 from apps.localparam import params
 from apps.localparam.controllers import EditParams
-from apps.systrayapp.views import TaskBarIcon
+from apps.systrayapp.views import SystrayApp
+from apps.userauth import user_auth
+
+from settings import TRAY_ICON, TRAY_TOOLTIP
 
 
 def menu_paramenters(event):
@@ -17,30 +20,20 @@ def menu_paramenters(event):
     EditParams(None, params)
 
 
-def menu_force(event):
-    """ Forza l'esecuzione degli importer.
-    """
-    importer.execute()
-
-
 if __name__ == '__main__':
     # Add directory in PYTHONPATH
     PROJECT_ROOT = os.path.dirname(__file__)
     sys.path.insert(0, os.path.join(PROJECT_ROOT, 'apps'))
     sys.path.insert(0, os.path.join(PROJECT_ROOT, 'libs'))
     app = wx.App()
-    # Iniziallizzazione e avvio app su systray
-    agaimp_app = TaskBarIcon()
+    # App su systray
+    frame = wx.Frame(None)
+    agaimp_app = SystrayApp(TRAY_ICON, TRAY_TOOLTIP)
+    agaimp_app.add_menu_item('Exit', agaimp_app.OnExit)
     agaimp_app.add_menu_item('Parametri', menu_paramenters)
-    agaimp_app.add_menu_item('Force import', menu_force)
     # Esecuzione e schedulazione importer
-    try:
-        importer.execute()
-    except:
-        print 'errore eseguendo importer'
-        raise
-    else:
-        importer.schedule()
+    importer = get_importer(user_auth['servers'])
+    importer.start()
     app.MainLoop()
     params.save()
     importer.shutdown()

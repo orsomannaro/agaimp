@@ -1,3 +1,10 @@
+"""
+Autorizzazione dell'utente.
+
+SERVER
+Le autorizzazioni relative ai server sono fornite tramite il dizionario 'servers' si tuple (<nome server>, <True/False>)
+"""
+
 import requests
 
 from settings import AGAIN_URL
@@ -14,9 +21,9 @@ def authenticate(func):
     Decorator for methods, which require authentication.
     """
     def authenticate_and_call(*args, **kwargs):
-        if login():
-            return func(*args, **kwargs)
-        raise Exception
+        if not login():
+            raise Exception('Authentication Failed.')
+        return func(*args, **kwargs)
     return authenticate_and_call
 
 
@@ -40,25 +47,25 @@ def login():
     usr = params.param_uuid
     pwd = get_pwd(usr)
     #req = requests.get(AGAIN_URL, auth=(usr, pwd), timeout = 5)
-    req = requests.get('https://api.github.com/', auth=('orsomannaro@gmail.com', 'lewis501'))
+    req = requests.get('https://api.github.com/', auth=('orsomannaro@gmail.com', 'lewis5021'))
     if req.ok:
         # Recupero dalla web-app il dizionario con autorizzazioni dell'utente
         #user_auth = req.json()
-        user_auth = {SIGMA_AUTH: True}
+        user_auth = {SIGMA_AUTH: True, 'servers': {('sigma', True), ('delta', False)}}
     return req.ok
 
 
 @authenticate
-def server(server_auth):
+def server_auth(server_type):
     """
     Verifica l'autorizzazione ad importare dal server SIGMA
-    :param server_auth:
+    :param server_type:
     """
     def chk_server_auth(func):
         def chk_srv(*args, **kwargs):
-            return func(*args, **kwargs) if server_auth in user_auth and user_auth[server_auth] else False
+            return func(*args, **kwargs) if server_type in user_auth and user_auth[server_type] else False
         return chk_srv
     return chk_server_auth
 
 
-user_auth = {}
+user_auth = {SIGMA_AUTH: True, 'servers': {('sigma', True), ('delta', False)}}

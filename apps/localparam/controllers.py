@@ -1,7 +1,11 @@
+from settings import PARAM_FILE
+
+from .models import LocalParam
 from .views import AgaimparamView
 
 
 class EditParams(AgaimparamView):
+    #TODO: forse il posto corretto e' con le views?
     """
     Edit parametri tramite form.
     """
@@ -11,7 +15,6 @@ class EditParams(AgaimparamView):
         """
         AgaimparamView.__init__(self, parent)
         self.params_obj = params_obj
-        self.Show()
 
     def OnLoadData(self, event):
         """ Carica i parametri.
@@ -34,3 +37,18 @@ class EditParams(AgaimparamView):
 
     def OnAnnullaClick(self, event):
         self.Close()
+
+
+class Params(LocalParam):
+    def __init__(self, file_name):
+        super(Params, self).__init__(file_name)
+
+    def edit(self, parent=None):
+        edit_frm = EditParams(parent, self.params)
+        edit_frm.Show()
+
+    def OnEdit(self, event):
+        self.edit()
+
+
+params = Params(PARAM_FILE)

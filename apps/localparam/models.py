@@ -1,38 +1,43 @@
 """
-I parametri vengono formattati in json e salvati in un file.
+Gestione dei parametri su file_name.
+
+Creazione, caricamento e salvataggio in formato json.
+Ogni parametro e' leggibile e aggiornabile come proprieta'.
+
+In fase di istanziamento i parametri vengono letti/creati e poi conservati in memoria.
+La lettura e scrittura su disco e' effettuabile con i metodi 'load' e 'save'.
+
+Per l'editing a mezzo form la convenzione e' di utilizzare per i nomi
+dei controlli associati ai parametri, le relative costanti PARAM_.
 """
 
 import os
 import uuid
 
+from . import PARAM_UUID, PARAM_IP_DELTA, PARAM_IP_SIGMA
+
 
 class LocalParam(object):
-    """ Parametri locali.
-    """
-    PARAM_UUID = 'param_uuid'  # identificativo dell'installazione
-    PARAM_IP_DELTA = 'param_ip_delta'  # indirizzo IP del server DELTA
-    PARAM_IP_SIGMA = 'param_ip_sigma'  # indirizzo IP del server SIGMA
-
+    """ Parametri locali """
     def __init__(self, file_name):
         self.file_name = file_name
+        self.params = {}  # parametri
         if not os.path.isfile(self.file_name):
-            self.create()
+            self.reset()
             self.save()
         else:
             self.load()
 
-    def create(self):
-        """ Inizializza e crea i parametri.
-        """
+    def reset(self):
+        """ Inizializza e crea i parametri """
         self.params = {
-            self.PARAM_UUID: str(uuid.uuid4()),
-            self.PARAM_IP_DELTA: '0.0.0.0',
-            self.PARAM_IP_SIGMA: '0.0.0.0',
+            PARAM_UUID: str(uuid.uuid4()),
+            PARAM_IP_DELTA: '0.0.0.0',
+            PARAM_IP_SIGMA: '0.0.0.0',
         }
 
     def load(self):
-        """ Carica i parametri dal file.
-        """
+        """ Carica i parametri dal file """
         import json
 
         try:
@@ -44,8 +49,7 @@ class LocalParam(object):
             raise
 
     def save(self):
-        """ Salva i parametri sul file.
-        """
+        """ Salva i parametri sul file """
         import json
 
         try:
@@ -58,24 +62,24 @@ class LocalParam(object):
 
     @property
     def param_uuid(self):
-        return self.params[self.PARAM_UUID]
+        return self.params[PARAM_UUID]
 
     @param_uuid.setter
     def param_uuid(self, value):
-        self.params[self.PARAM_UUID] = value
+        self.params[PARAM_UUID] = value
 
     @property
     def param_ip_delta(self):
-        return self.params[self.PARAM_IP_DELTA]
+        return self.params[PARAM_IP_DELTA]
 
     @param_ip_delta.setter
     def param_ip_delta(self, value):
-        self.params[self.PARAM_IP_DELTA] = value
+        self.params[PARAM_IP_DELTA] = value
 
     @property
     def param_ip_sigma(self):
-        return self.params[self.PARAM_IP_SIGMA]
+        return self.params[PARAM_IP_SIGMA]
 
     @param_ip_sigma.setter
     def param_ip_sigma(self, value):
-        self.params[self.PARAM_IP_SIGMA] = value
+        self.params[PARAM_IP_SIGMA] = value

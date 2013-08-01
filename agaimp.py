@@ -18,14 +18,13 @@ if __name__ == '__main__':
     PROJECT_ROOT = os.path.dirname(__file__)
     sys.path.insert(0, os.path.join(PROJECT_ROOT, 'apps'))
     sys.path.insert(0, os.path.join(PROJECT_ROOT, 'libs'))
-    # Main
+
     app = wx.App()
 
     # App su systray
-    frame = wx.Frame(None)
-    agaimp_app = SystrayApp(TRAY_ICON, TRAY_TOOLTIP)
-    agaimp_app.add_menu_item('Exit', agaimp_app.OnExit)
-    agaimp_app.add_menu_item('Parametri', params.OnEdit)
+    systray = SystrayApp(TRAY_ICON, TRAY_TOOLTIP)
+    systray.add_menu_item('Exit', systray.OnExit)
+    systray.add_menu_item('Parametri', params.OnEdit)
 
     # Importer
     importer = Importer()

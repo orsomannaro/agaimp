@@ -5,9 +5,9 @@ from .views import AgaimparamView
 
 
 class EditParams(AgaimparamView):
-    #TODO: forse il posto corretto e' con le views?
     """
     Edit parametri tramite form.
+    (?forse il posto corretto e' con le views?)
     """
     def __init__(self, parent, params_obj):
         """
@@ -41,16 +41,14 @@ class EditParams(AgaimparamView):
         self.Close()
 
 
-class Params(object):
-    def __init__(self, file_name):
-        self.params = LocalParam(file_name)
+class Params(LocalParam):
 
-    def edit(self, parent=None):
-        edit_frm = EditParams(parent, self.params)
+    def edit_frame(self, parent=None):
+        edit_frm = EditParams(parent, self)
         edit_frm.Show()
 
     def OnEdit(self, event):
-        self.edit()
+        self.edit_frame()
 
 
 params = Params(PARAM_FILE)

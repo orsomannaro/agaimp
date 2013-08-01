@@ -24,6 +24,7 @@ class SystrayApp(wx.TaskBarIcon):
         return menu
 
     def OnExit(self, event):
+        self.frame.Destroy()
         wx.CallAfter(self.Destroy)
 
     def add_menu_item(self, label, func):

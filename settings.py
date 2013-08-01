@@ -11,7 +11,7 @@ LOGS_DIR = os.path.join(PROJECT_ROOT, 'logs')
 
 TRAY_ICON = os.path.join(IMAGES_DIR, 'trayicon.ico')
 TRAY_ICON_ERR = os.path.join(IMAGES_DIR, 'trayicon_err.ico')
-TRAY_TOOLTIP = 'aGain'
+TRAY_TOOLTIP = 'aGaiMp'
 
 AGAIN_URL = 'http://www.again.it/'
 AGAIN_URL_SSL = 'https://www.again.it/'

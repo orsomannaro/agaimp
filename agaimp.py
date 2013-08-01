@@ -4,13 +4,11 @@ import os
 import sys
 import wx
 
-from apscheduler.scheduler import Scheduler
+from settings import TRAY_ICON, TRAY_TOOLTIP
 
-from apps.importer.controllers import Importer
+from apps.importer.controllers import importer
 from apps.localparam.controllers import params
 from apps.systrayapp.views import SystrayApp
-
-from settings import TRAY_ICON, TRAY_TOOLTIP
 
 
 if __name__ == '__main__':
@@ -19,22 +17,16 @@ if __name__ == '__main__':
     sys.path.insert(0, os.path.join(PROJECT_ROOT, 'apps'))
     sys.path.insert(0, os.path.join(PROJECT_ROOT, 'libs'))
 
-    app = wx.App()
-
     # App su systray
+    app = wx.App()
     systray = SystrayApp(TRAY_ICON, TRAY_TOOLTIP)
     systray.add_menu_item('Exit', systray.OnExit)
     systray.add_menu_item('Parametri', params.OnEdit)
 
     # Importer
-    importer = Importer()
     importer.execute()
-
-    # Schedulazione
-    sched = Scheduler()
-    sched.start()
-    sched.add_interval_job(importer.execute, seconds=3)
+    importer.schedule()
 
     app.MainLoop()
-    sched.shutdown()
+    importer.shutdown()
     params.save()

@@ -27,13 +27,13 @@ class SystrayApp(wx.TaskBarIcon):
         self.frame.Destroy()
         wx.CallAfter(self.Destroy)
 
-    def add_menu_item(self, label, func):
-        self.menu.append((label, func))
-
-    def get_icon(self, path):
+    def _get_icon(self, path):
         icon = wx.IconFromBitmap(wx.Bitmap(path))
         return icon
 
+    def add_menu_item(self, label, func):
+        self.menu.append((label, func))
+
     def set_icon(self, path, tooltip):
-        icon = self.get_icon(path)
+        icon = self._get_icon(path)
         self.SetIcon(icon, tooltip)

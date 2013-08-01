@@ -8,3 +8,19 @@ class DashboardForm(wx.Frame):
 
         self.Centre()
         self.Show()
+
+
+
+from .models import dashboards
+
+
+def dashboard(request):
+    dashboards_notices = []
+    for dashboard in dashboards:
+        try:
+            # genera le notices per ogni dashboard registrato
+            dashboards_notices.append({ 'name': dashboard.name,
+                                        'notices': dashboard.get_notices(request)})
+        except ValueError:
+            continue
+

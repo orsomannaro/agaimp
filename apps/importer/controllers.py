@@ -1,16 +1,18 @@
-from apps.localparam import params
+from apps import userauth
+from apps.userauth.controllers import user_auth
 
-from .models import Importer, SigmaServer
+from . import models
 
 
-def get_importer(auth_servers):
-    importer = Importer()
-    for (name, enabled) in auth_servers:
-        if enabled:
-            if name == 'delta':
-                pass
-            elif name == 'sigma':
-                importer.add(SigmaServer, args=[params.param_ip_sigma], seconds=3, name='sigma')
-            else:
-                pass
-    return importer
+class Importer(object):
+    """ Importazione dai server
+    """
+    server_importers = {
+        (userauth.ID_SRV_DELTA, models.DeltaServer),
+        (userauth.ID_SRV_SIGMA, models.SigmaServer),
+    }
+
+    def execute(self):
+        for id_srv, server in self.server_importers:
+            if user_auth.sever(id_srv):
+                server().read()

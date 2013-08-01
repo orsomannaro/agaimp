@@ -2,14 +2,14 @@
 
 import os
 import sys
-
 import wx
 
-from apps.importer.controllers import get_importer
+from apscheduler.scheduler import Scheduler
+
+from apps.importer.controllers import Importer
 from apps.localparam import params
 from apps.localparam.controllers import EditParams
 from apps.systrayapp.views import SystrayApp
-from apps.userauth import user_auth
 
 from settings import TRAY_ICON, TRAY_TOOLTIP
 
@@ -25,6 +25,7 @@ if __name__ == '__main__':
     PROJECT_ROOT = os.path.dirname(__file__)
     sys.path.insert(0, os.path.join(PROJECT_ROOT, 'apps'))
     sys.path.insert(0, os.path.join(PROJECT_ROOT, 'libs'))
+    # Main
     app = wx.App()
     # App su systray
     frame = wx.Frame(None)
@@ -32,8 +33,11 @@ if __name__ == '__main__':
     agaimp_app.add_menu_item('Exit', agaimp_app.OnExit)
     agaimp_app.add_menu_item('Parametri', menu_paramenters)
     # Esecuzione e schedulazione importer
-    importer = get_importer(user_auth['servers'])
-    importer.start()
+    importer = Importer()
+    importer.execute()
+    sched = Scheduler()
+    sched.start()
+    sched.add_interval_job(importer.execute, seconds=3)
     app.MainLoop()
+    sched.shutdown()
     params.save()
-    importer.shutdown()

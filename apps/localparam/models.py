@@ -21,7 +21,7 @@ class LocalParam(object):
     """ Parametri locali """
     def __init__(self, file_name):
         self.file_name = file_name
-        self.params = {}  # parametri
+        self._params = {}  # parametri
         if not os.path.isfile(self.file_name):
             self.reset()
             self.save()
@@ -30,7 +30,7 @@ class LocalParam(object):
 
     def reset(self):
         """ Inizializza e crea i parametri """
-        self.params = {
+        self._params = {
             PARAM_UUID: str(uuid.uuid4()),
             PARAM_IP_DELTA: '0.0.0.0',
             PARAM_IP_SIGMA: '0.0.0.0',
@@ -43,7 +43,7 @@ class LocalParam(object):
         try:
             with open(self.file_name, 'r') as f:
                 json_param = json.load(f)
-            self.params = json.loads(json_param)
+            self._params = json.loads(json_param)
         except:
             #TODO: gestire eccezione
             raise
@@ -53,7 +53,7 @@ class LocalParam(object):
         import json
 
         try:
-            json_param = json.dumps(self.params)
+            json_param = json.dumps(self._params)
             with open(self.file_name, 'w') as f:
                 json.dump(json_param, f)
         except:
@@ -62,24 +62,27 @@ class LocalParam(object):
 
     @property
     def param_uuid(self):
-        return self.params[PARAM_UUID]
+        return self._params[PARAM_UUID]
 
     @param_uuid.setter
     def param_uuid(self, value):
-        self.params[PARAM_UUID] = value
+        self._params[PARAM_UUID] = value
 
     @property
     def param_ip_delta(self):
-        return self.params[PARAM_IP_DELTA]
+        return self._params[PARAM_IP_DELTA]
 
     @param_ip_delta.setter
     def param_ip_delta(self, value):
-        self.params[PARAM_IP_DELTA] = value
+        self._params[PARAM_IP_DELTA] = value
 
     @property
     def param_ip_sigma(self):
-        return self.params[PARAM_IP_SIGMA]
+        return self._params[PARAM_IP_SIGMA]
 
     @param_ip_sigma.setter
     def param_ip_sigma(self, value):
-        self.params[PARAM_IP_SIGMA] = value
+        self._params[PARAM_IP_SIGMA] = value
+
+    def params(self):
+        return self._params

@@ -20,7 +20,8 @@ class EditParams(AgaimparamView):
         """ Carica i parametri.
         """
         if event.Show:
-            for key, value in self.params_obj.params.items():
+            params = self.params_obj.params()
+            for key, value in params.items():
                 if key in self.__dict__.keys():
                     self.__dict__[key].Value = value
 
@@ -28,10 +29,11 @@ class EditParams(AgaimparamView):
         """ Salva i parametri.
         """
         #TODO: i valori dei parametri devono essere validati prima di salvarli
-        for name in self.params_obj.params.keys():
+        params = self.params_obj.params()
+        for name in params.keys():
             if name in self.__dict__.keys():
                 value = self.__dict__[name].Value
-                self.params_obj.params[name] = value
+                params[name] = value
         self.params_obj.save()
         self.Close()
 
@@ -39,9 +41,9 @@ class EditParams(AgaimparamView):
         self.Close()
 
 
-class Params(LocalParam):
+class Params(object):
     def __init__(self, file_name):
-        super(Params, self).__init__(file_name)
+        self.params = LocalParam(file_name)
 
     def edit(self, parent=None):
         edit_frm = EditParams(parent, self.params)

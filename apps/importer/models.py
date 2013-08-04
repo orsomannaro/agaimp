@@ -3,22 +3,20 @@
 class ServerMount(type):
     """
     Colleziona oggetti istanziati da classi aventi __metaclass__ = ServerMount.
-    __servers: lista oggetti istanziati
+    _servers: lista oggetti istanziati
     """
     def __init__(cls, name, bases, attrs):
-        if not hasattr(cls, '__serverscollector'):
-            # Questa parte viene eseguita solo la prima volta che
-            # una classe dichiara __metaclass__ = ServerMount
-            cls.__servers = []
+        # Questa parte viene eseguita ogni volta che
+        # una classe dichiara __metaclass__ = ServerMount
+        if not hasattr(cls, '_servers'):
+            cls._servers = []
         else:
-            # Questa parte viene eseguita ogni volta che si istanzia
-            # un oggetto di una classe avente __metaclass__ = ServerMount
-            cls.__servers.append(cls)
+            cls._servers.append(cls)
 
     def get_servers(self, *args, **kwargs):
         """ Torna la lista degli oggetti istanziati
         """
-        return [d(*args, **kwargs) for d in self.__servers]
+        return [d(*args, **kwargs) for d in self._servers]
 
 
 class Server(object):
@@ -32,6 +30,3 @@ class Server(object):
 
     def read(self):
         raise NotImplementedError("Must subclass me")
-
-
-servers = Server.get_servers()

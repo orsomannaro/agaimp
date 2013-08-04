@@ -16,4 +16,9 @@ TRAY_TOOLTIP = 'aGaiMp'
 AGAIN_URL = 'http://www.again.it/'
 AGAIN_URL_SSL = 'https://www.again.it/'
 
-PARAM_FILE = os.path.join(PROJECT_ROOT, 'param.json')
+PARAM_FILE = os.path.join(PROJECT_ROOT, 'data/param.json')
+
+INSTALLED_SERVERS = [
+    'apps.server_delta',
+    'apps.server_sigma',
+]

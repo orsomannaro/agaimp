@@ -4,7 +4,7 @@ import os
 import sys
 import wx
 
-from settings import TRAY_ICON, TRAY_TOOLTIP
+from settings import *
 
 from apps.importer.controllers import importer
 from apps.localparam.controllers import params
@@ -17,6 +17,10 @@ if __name__ == '__main__':
     sys.path.insert(0, os.path.join(PROJECT_ROOT, 'apps'))
     sys.path.insert(0, os.path.join(PROJECT_ROOT, 'libs'))
 
+    # Carica server
+    for server in INSTALLED_SERVERS:
+        __import__(server)
+
     # App su systray
     app = wx.App()
     systray = SystrayApp(TRAY_ICON, TRAY_TOOLTIP)
@@ -24,8 +28,12 @@ if __name__ == '__main__':
     systray.add_menu_item('Parametri', params.OnEdit)
 
     # Importer
-    importer.execute()
-    importer.schedule()
+    try:
+        importer.execute()
+    except:
+        raise
+    else:
+        importer.schedule()
 
     app.MainLoop()
     importer.shutdown()

@@ -22,6 +22,9 @@ class UserAuth(object):
             return None
 
     def get(self):
+        return {'servers': [('delta', False), ('sigma', True)]}
+
+    def get_CORRETTA(self):
         """
         Effettua login a self.ulr e legge autorizzazioni.
         :param usr: UUID installazione registrato sul sito (params.param_uuid)
@@ -30,8 +33,7 @@ class UserAuth(object):
         req = requests.get(self.url, auth=(self.usr, self.pwd))
         if req.ok:
             # Recupero dizionario autorizzazioni utente.
-            #user_auth = req.json()
-            user_auth = {'servers': [('delta', False), ('sigma', True)]}
+            user_auth = req.json()
             return user_auth
         return {}
 
@@ -39,6 +41,7 @@ class UserAuth(object):
         """ Ritorna True se id_srv e' abilitato.
         """
         try:
+            s = self.auth(SERVERS_AUTH)
             server_auth = dict(self.auth(SERVERS_AUTH))
             return server_auth[id_srv]
         except:

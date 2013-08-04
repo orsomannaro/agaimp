@@ -1,6 +1,6 @@
 from apscheduler.scheduler import Scheduler
 
-from .models import servers
+from .models import Server
 from apps.userauth.controllers import user_auth
 
 
@@ -15,7 +15,7 @@ class Importer(object):
         self._sched.add_interval_job(self.execute, seconds=3)
 
     def execute(self):
-        for server in servers:
+        for server in Server.get_servers():
             if user_auth.sever(server.id_srv):
                 server.read()
 

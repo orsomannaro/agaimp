@@ -14,15 +14,17 @@ dei controlli associati ai parametri, le relative costanti PARAM_.
 import os
 import uuid
 
+from settings import DATA_DIR
+
 from . import PARAM_UUID, PARAM_IP_DELTA, PARAM_IP_SIGMA
 
 
 class LocalParam(object):
     """ Parametri locali """
     def __init__(self, file_name):
-        self.file_name = file_name
+        self.file = os.path.join(DATA_DIR, file_name)
         self._params = {}  # parametri
-        if not os.path.isfile(self.file_name):
+        if not os.path.isfile(self.file):
             self.reset()
             self.save()
         else:
@@ -41,7 +43,7 @@ class LocalParam(object):
         import json
 
         try:
-            with open(self.file_name, 'r') as f:
+            with open(self.file, 'r') as f:
                 json_param = json.load(f)
             self._params = json.loads(json_param)
         except:
@@ -54,7 +56,7 @@ class LocalParam(object):
 
         try:
             json_param = json.dumps(self._params)
-            with open(self.file_name, 'w') as f:
+            with open(self.file, 'w') as f:
                 json.dump(json_param, f)
         except:
             #TODO: gestire eccezione

@@ -21,17 +21,14 @@ if __name__ == '__main__':
         __import__(server)
 
     # App
-    app = wx.App()
     agaimp = aGaiMp()
 
     # Importer
-    importer = Importer()
-    try:
-        importer.execute()
-    except:
-        raise
-    else:
-        importer.schedule()
-
-    app.MainLoop()
-    importer.shutdown()
+    # importer = Importer()
+    # try:
+    #     importer.execute()
+    # except:
+    #     raise
+    # else:
+    #     importer.schedule()
+    # importer.shutdown()

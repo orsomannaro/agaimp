@@ -9,7 +9,7 @@ IMAGES_DIR = os.path.join(ASSETS_DIR, 'img')
 DATA_DIR = os.path.join(PROJECT_ROOT, 'data')
 LOGS_DIR = os.path.join(PROJECT_ROOT, 'logs')
 
-AGAIN_LOGO = os.path.join(IMAGES_DIR, 'logo.png')
+AGAIN_LOGO = os.path.join(IMAGES_DIR, 'logo_small.png')
 
 TRAY_TOOLTIP = 'aGaiMp'
 TRAY_ICON = os.path.join(IMAGES_DIR, 'trayicon.ico')

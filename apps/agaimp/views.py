@@ -1,6 +1,7 @@
-import os
 import time
 import wx
+
+from libs.wx_utils import get_wx_icon
 
 
 class SystrayApp(wx.TaskBarIcon):
@@ -34,16 +35,6 @@ class SystrayApp(wx.TaskBarIcon):
     def OnLeftClick(self, event):
         pass
 
-    def _get_icon(self, full_path):
-        file_ext = os.path.splitext(full_path)[1]
-        if file_ext == 'ico':
-            icon = wx.IconFromBitmap(wx.Bitmap(full_path))
-            return icon
-        elif file_ext == 'png':
-            icon = wx.Icon(full_path, wx.BITMAP_TYPE_PNG)
-            return icon
-        raise NotImplementedError("Unknown icon type")
-
     def close(self):
         self.frame.Destroy()
         wx.CallAfter(self.Destroy)
@@ -52,7 +43,7 @@ class SystrayApp(wx.TaskBarIcon):
         """ Imposta icona e tooltip.
         """
         try:
-            icon = self._get_icon(icon_file)
+            icon = get_wx_icon(icon_file)
             self.SetIcon(icon, icon_tooltip)
         except:
             raise
@@ -62,7 +53,7 @@ class Popup(wx.Frame):
     """ Notifier's popup window
     """
 
-    def __init__(self):
+    def __init__(self, logo):
         wx.Frame.__init__(self, None, -1, style=wx.NO_BORDER | wx.FRAME_NO_TASKBAR)
         self.padding = 12  # padding between edge, icon and text
         self.popped = 0  # the time popup was opened
@@ -90,7 +81,7 @@ class Popup(wx.Frame):
         self.panel.Bind(wx.EVT_LEFT_DOWN, self.click)
 
         # popup's logo
-        self.logo = wx.Bitmap(file('dat/reader_large.png', 'p'))
+        self.logo = wx.Bitmap(logo)
         wx.StaticBitmap(self.panel, -1, pos=(self.padding, self.padding)).SetBitmap(self.logo)
 
         # main timer routine
@@ -159,4 +150,3 @@ class Popup(wx.Frame):
         """ Returns true if popup is open
         """
         return self.popped != 0
-

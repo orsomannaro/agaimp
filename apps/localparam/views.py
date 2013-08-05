@@ -8,6 +8,8 @@ from .forms.agaimparam_form import Paramenters
 
 
 class AgaimparamView(Paramenters):
+    """ Form per edit dei parametri locali.
+    """
     def __init__(self, parent):
         Paramenters.__init__(self, parent)
         self.Bind(wx.EVT_SHOW, self.OnLoadData)  # gestione evento Show

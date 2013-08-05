@@ -5,9 +5,7 @@ from .views import AgaimparamView
 
 
 class EditParams(AgaimparamView):
-    """
-    Edit parametri tramite form.
-    (?forse il posto corretto e' con le views?)
+    """ Edit parametri tramite form.
     """
     def __init__(self, parent, params_obj):
         """

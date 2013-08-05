@@ -1,5 +1,7 @@
 """
 Parametri locali.
+
+Parametri relativi alla particolare installazione nel PC e nella LAN dell'utente.
 """
 
 # Nomi dei parametri.

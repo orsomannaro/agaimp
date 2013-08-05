@@ -6,9 +6,8 @@ import wx
 
 from settings import *
 
-from apps.importer.controllers import importer
-from apps.localparam.controllers import params
-from apps.systrayapp.views import SystrayApp
+from apps.agaimp.controllers import aGaiMp
+from apps.importer.controllers import Importer
 
 
 if __name__ == '__main__':
@@ -21,13 +20,12 @@ if __name__ == '__main__':
     for server in INSTALLED_SERVERS:
         __import__(server)
 
-    # App su systray
+    # App
     app = wx.App()
-    systray = SystrayApp(TRAY_ICON, TRAY_TOOLTIP)
-    systray.add_menu_item('Exit', systray.OnExit)
-    systray.add_menu_item('Parametri', params.OnEdit)
+    agaimp = aGaiMp()
 
     # Importer
+    importer = Importer()
     try:
         importer.execute()
     except:
@@ -37,4 +35,3 @@ if __name__ == '__main__':
 
     app.MainLoop()
     importer.shutdown()
-    params.save()

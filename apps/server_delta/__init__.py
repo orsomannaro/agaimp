@@ -1,4 +1,4 @@
-from apps.importer.models import Server
+from apps.importer import Server
 
 
 class DeltaServer(Server):

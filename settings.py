@@ -9,8 +9,11 @@ IMAGES_DIR = os.path.join(ASSETS_DIR, 'img')
 DATA_DIR = os.path.join(PROJECT_ROOT, 'data')
 LOGS_DIR = os.path.join(PROJECT_ROOT, 'logs')
 
+AGAIN_LOGO = os.path.join(IMAGES_DIR, 'logo.png')
+
 TRAY_TOOLTIP = 'aGaiMp'
 TRAY_ICON = os.path.join(IMAGES_DIR, 'trayicon.ico')
+TRAY_ICON_WRN = os.path.join(IMAGES_DIR, 'trayicon_wrn.ico')
 TRAY_ICON_ERR = os.path.join(IMAGES_DIR, 'trayicon_err.ico')
 
 AGAIN_URL = 'http://www.again.it/'

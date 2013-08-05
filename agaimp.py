@@ -6,7 +6,7 @@ import wx
 
 from settings import *
 
-from apps.agaimp.controllers import aGaiMp
+from apps.agaimp import aGaiMp
 from apps.importer.controllers import Importer
 
 

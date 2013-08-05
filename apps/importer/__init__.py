@@ -1,9 +1,12 @@
+"""
+Plug-in pattern per server
+"""
 
 
 class ServerMount(type):
     """
-    Colleziona oggetti istanziati da classi aventi __metaclass__ = ServerMount.
-    _servers: lista oggetti istanziati
+    Colleziona classi derivate da Server.
+    _servers: lista delle classi
     """
     def __init__(cls, name, bases, attrs):
         # Questa parte viene eseguita ogni volta che
@@ -14,9 +17,9 @@ class ServerMount(type):
             cls._servers.append(cls)
 
     def get_servers(self, *args, **kwargs):
-        """ Torna la lista degli oggetti istanziati
+        """ Torna una lista di tuple con le classi derivate da Server
         """
-        return [d(*args, **kwargs) for d in self._servers]
+        return [srv(*args, **kwargs) for srv in self._servers]
 
 
 class Server(object):

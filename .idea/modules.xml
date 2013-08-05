@@ -3,6 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/.idea/agaimp.iml" filepath="$PROJECT_DIR$/.idea/agaimp.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../readertray/.idea/readertray.iml" filepath="$PROJECT_DIR$/../readertray/.idea/readertray.iml" />
     </modules>
   </component>
 </project>

@@ -1,26 +1,15 @@
-import wx
+from .forms import DashboardForm
+from .models import Dashboard
 
 
-class DashboardForm(wx.Frame):
-    def __init__(self, parent, title):
-        super(DashboardForm, self).__init__(parent, title=title, size=(300, 200),
-                                            style=wx.DEFAULT_DIALOG_STYLE)
-
-        self.Centre()
-        self.Show()
-
-
-
-from .models import dashboards
-
-
-def dashboard(request):
+def dashboard_view():
     dashboards_notices = []
-    for dashboard in dashboards:
+    for dashboard in Dashboard.get_dashboards():
         try:
             # genera le notices per ogni dashboard registrato
-            dashboards_notices.append({ 'name': dashboard.name,
-                                        'notices': dashboard.get_notices(request)})
+            dashboards_notices.append({
+                'name': dashboard.name,
+                'notices': dashboard.get_notices()
+            })
         except ValueError:
             continue
-

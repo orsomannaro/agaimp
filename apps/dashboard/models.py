@@ -1,25 +1,31 @@
 """
 Register pattern per dashboad (cruscotti)
+
+
+If you put the PluginMount.__init__ logic in PluginMount.__new__ it is called whenver a new instance of a Plugin derived class is created.
+(http://stackoverflow.com/questions/14510286/plugin-architecture-plugin-manager-vs-inspecting-from-plugins-import)
 """
 
-class DashboardMount(type):
 
+class DashboardMount(type):
+    """
+    Colleziona classi derivate da Server.
+    _servers: lista delle classi
+    """
     def __init__(cls, name, bases, attrs):
-        if not hasattr(cls, 'dashboards'):
-            # questa parte viene eseguita solo quando si scrive
-            # una classe dichiarando DashboardMount come sua __metaclass__
-            cls.dashboards = []
+        """ Called when a Dashboard derived class is imported
+        """
+        if not hasattr(cls, '_dashboards'):
+            cls._dashboards = []
         else:
-            # questa parte viene eseguita ogni volta che poi si istanzia
-            # un oggetto della classe avente DashboardMount come  __metaclass__
-            cls.dashboards.append(cls)
+            cls._dashboards.append(cls)
 
     def get_dashboards(self, *args, **kwargs):
         """
         Torna una lista di ISTANZE delle sottoclassi Dashboard registrate.
         (nulla vieta di farlo direttamente nel codice)
         """
-        return [d(*args, **kwargs) for d in self.dashboards]
+        return [d(*args, **kwargs) for d in self._dashboards]
 
 
 class Dashboard(object):
@@ -33,7 +39,7 @@ class Dashboard(object):
 
     name = ''
 
-    def get_notices(self, request):
+    def get_notices(self):
         """
         Ritorna una LISTA di dizionari.
         Ogni DIZIONARIO costituisce una notifica
@@ -43,6 +49,3 @@ class Dashboard(object):
          - auth    : livello minimo del destinatario
         """
         return []
-
-
-dashboards = Dashboard.get_dashboards()

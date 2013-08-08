@@ -1,12 +1,17 @@
-import os
 import wx
-import feedparser
+
+from apscheduler.scheduler import Scheduler
 
 from settings import AGAIN_LOGO, TRAY_ICON, TRAY_TOOLTIP, TRAY_ICON_WRN, TRAY_ICON_ERR
 
+from apps.importer.controllers import Importer
 from apps.localparam.controllers import params
 
 from .views import SystrayApp, Popup
+
+from wx.lib.pubsub.pub import Publisher
+
+from .server import SERVER_TOPIC
 
 
 class aGaiMpSysApp(SystrayApp):
@@ -33,29 +38,6 @@ class aGaiMpSysApp(SystrayApp):
         self.set_icon(TRAY_ICON_WRN, tooltip)
 
 
-class Reader(object):
-    """
-    Lettore di feed.
-    Genera le voci dei feed aggiunti.
-    """
-
-    def __init__(self):
-        self.feeds = {}
-
-    def add_feed(self, name, source, max_items=10):
-        self.feeds[name] = (source, max_items)
-
-    def del_feed(self, name):
-        del self.feeds[name]
-
-    def items(self):
-        for name in self.feeds.keys():
-            source, max_items = self.feeds[name]
-            feed = feedparser.parse(r'%s' if os.path.isfile(source) else '%s' % source)
-            for entry in feed.entries[:max_items]:
-                yield entry
-
-
 class aGaiMp(wx.App):
     """ Main notifier app
     """
@@ -69,14 +51,25 @@ class aGaiMp(wx.App):
         ]
         self.systrayapp = aGaiMpSysApp(TRAY_ICON, TRAY_TOOLTIP, menu)  # systray app
         self.popup = Popup(AGAIN_LOGO)
-        self.reader = Reader()
-        self.reader.add_feed('digg', 'http://digg.com/rss/index.xml')
+        self.importer = Importer()
+
+        # Create a pubsub receiver.
+        Publisher().subscribe(self.update_display, SERVER_TOPIC)
+
+        # Importer
+        self.importer = Importer()
+        try:
+            self.importer.execute()
+        except:
+            raise
+        # else:
+        #     self.importer.schedule()
 
         # main timer routine
-        timer = wx.Timer(self, -1)
-        self.Bind(wx.EVT_TIMER, self.OnTimer, timer)
-        timer.Start(500)
-        self.MainLoop()
+        # timer = wx.Timer(self, -1)
+        # self.Bind(wx.EVT_TIMER, self.OnTimer, timer)
+        # timer.Start(500)
+        # self.MainLoop()
 
     def OnClose(self, event):
         self.exit()
@@ -98,13 +91,20 @@ class aGaiMp(wx.App):
         #     if msg:
         #         self.popup.show(msg)
 
-    def again(self):
-        print "again"
-
-    def settings(self):
-        print "settings"
-
     def exit(self):
         # close objects and end
+        self.importer.shutdown()
         self.systrayapp.close()
         self.Exit()
+
+    def status_update(self, event):
+        """ Receives status from thread and updates the display.
+        """
+        print event.status
+
+    def update_display(self, message):
+        """ Receives message from thread and updates the display.
+        """
+        data = message.data
+        print '%s' % data
+

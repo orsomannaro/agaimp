@@ -1,6 +1,4 @@
-"""
-Plug-in pattern per server
-"""
+from threading import Thread
 
 
 class ServerMount(type):
@@ -22,14 +20,11 @@ class ServerMount(type):
         return [srv(*args, **kwargs) for srv in self._servers]
 
 
-class Server(object):
+class Server(Thread):
     """
     Una app che importa dati da un server deve estendere questa classe,
     assegnare un valore a 'id_srv' e implementare il metodo 'read'.
     """
     __metaclass__ = ServerMount
 
-    id_srv =''
-
-    def read(self):
-        raise NotImplementedError("Must subclass me")
+    id_srv = ''

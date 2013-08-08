@@ -22,7 +22,7 @@ class UserAuth(object):
             return None
 
     def get(self):
-        return {'servers': [('delta', False), ('sigma', True)]}
+        return {'servers': [('delta', True), ('sigma', True)]}
 
     def get_CORRETTA(self):
         """

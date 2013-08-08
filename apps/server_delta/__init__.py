@@ -1,11 +1,17 @@
-from apps.importer import Server
+from apps.agaimp.server import wxServer
 
 
-class DeltaServer(Server):
+class DeltaServer(wxServer):
     def __init__(self):
         super(DeltaServer, self).__init__()
         self.id_srv = 'delta'
 
-    def read(self):
+    def run(self):
         import datetime
-        print 'DELTA: star import at ' + datetime.datetime.now().strftime("%H:%M:%S.%f")
+        import time
+
+        self.send_message('DELTA: star import at ' + datetime.datetime.now().strftime("%H:%M:%S.%f"))
+        for i in range(5):
+            time.sleep(1)
+            sec = i+1
+            self.send_message('Time since DELTA started: %s seconds.' % sec)

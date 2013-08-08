@@ -24,7 +24,7 @@ class Importer(object):
     def execute(self):
         for server in Server.get_servers():
             if user_auth.sever(server.id_srv):
-                server.read()
+                server.start()
 
     def shutdown(self):
         self._sched.shutdown()

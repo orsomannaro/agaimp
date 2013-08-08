@@ -2,12 +2,10 @@
 
 import os
 import sys
-import wx
 
 from settings import *
 
 from apps.agaimp import aGaiMp
-from apps.importer.controllers import Importer
 
 
 if __name__ == '__main__':
@@ -22,13 +20,4 @@ if __name__ == '__main__':
 
     # App
     agaimp = aGaiMp()
-
-    # Importer
-    # importer = Importer()
-    # try:
-    #     importer.execute()
-    # except:
-    #     raise
-    # else:
-    #     importer.schedule()
-    # importer.shutdown()
+    agaimp.MainLoop()

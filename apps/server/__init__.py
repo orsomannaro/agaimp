@@ -1,12 +1,7 @@
 import threading
-# import wx
-#
-# from wx.lib.pubsub.pub import Publisher
-
-
-#SERVER_TOPIC = 'server.messages'  # Publisher topic
 
 from apps.pubsub import Publisher, SubscriberStdOut
+
 
 servers_publisher = Publisher('servers_publisher')  # chi vuole leggere i messaggi dei server si iscrive qui
 
@@ -53,11 +48,6 @@ class Server(object):
         """ Logica del server
         """
         pass
-
-    # def send_message(self, message):
-    #     """ Send message to publisher
-    #     """
-    #     wx.CallAfter(Publisher().sendMessage, SERVER_TOPIC, message)
 
     def start(self):
         self.__thread = self.__new_thread()

@@ -1,3 +1,4 @@
+import threading
 
 
 class Publisher(object):
@@ -13,8 +14,9 @@ class Publisher(object):
 
     def publish(self, message):
         for subscriber in self._subscribers:
-            #TODO: qui e' meglio usare un thread (magari daemon)?
-            subscriber.publish(message)
+            t = threading.Thread(target=subscriber.publish, args=([message]))
+            t.daemon = True
+            t.start()
 
 
 class SubscriberStdOut(object):

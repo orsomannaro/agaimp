@@ -9,22 +9,24 @@ IMAGES_DIR = os.path.join(ASSETS_DIR, 'img')
 DATA_DIR = os.path.join(PROJECT_ROOT, 'data')
 LOGS_DIR = os.path.join(PROJECT_ROOT, 'logs')
 
+PARAM_FILE = os.path.join(PROJECT_ROOT, 'data/param.json')
+
+AGAIN_URL = 'http://www.again.it/'
+AGAIN_URL_SSL = 'https://www.again.it/'
+
 AGAIN_LOGO = os.path.join(IMAGES_DIR, 'logo_small.png')
 
+# Systray
 TRAY_TOOLTIP = 'aGaiMp'
 TRAY_ICON = os.path.join(IMAGES_DIR, 'trayicon.ico')
 TRAY_ICON_WRN = os.path.join(IMAGES_DIR, 'trayicon_wrn.ico')
 TRAY_ICON_ERR = os.path.join(IMAGES_DIR, 'trayicon_err.ico')
 
-AGAIN_URL = 'http://www.again.it/'
-AGAIN_URL_SSL = 'https://www.again.it/'
-
-PARAM_FILE = os.path.join(PROJECT_ROOT, 'data/param.json')
-
+# Server
 RUN_AT = {
-    'day_of_week': 'mon-fri',
-    'hour': 5,
-    'minute': 30
+    'd': 'mon-fri',
+    'h': 5,
+    'm': 30
 }
 
 INSTALLED_SERVERS = [

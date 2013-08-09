@@ -3,13 +3,14 @@
 import os
 import sys
 
+
+from apscheduler.scheduler import Scheduler
+
 from settings import *
 
 from apps.agaimp import aGaiMp
-from apps.importer import importer
+from apps.server import importer
 
-import logging
-logging.basicConfig()
 
 if __name__ == '__main__':
     # Add directory in PYTHONPATH
@@ -26,7 +27,13 @@ if __name__ == '__main__':
     except:
         raise
     else:
-        importer.schedule()
+        scheduler = Scheduler()
+        scheduler.start()
+        scheduler.add_interval_job(importer.execute, seconds=3)
+        scheduler.add_cron_job(importer.execute,
+                               day_of_week=RUN_AT['d'],
+                               hour=RUN_AT['h'],
+                               minute=RUN_AT['m'])
 
     agaimp.MainLoop()
-    importer.shutdown()
+    scheduler.shutdown()

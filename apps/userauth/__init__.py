@@ -5,9 +5,9 @@ Autorizzazioni utente.
 # SERVER_AUTH: autorizzazioni servers.
 # Lista di tuple (<ID_SRV>, <True/False>) dove True = schedule e False = unschedule.
 # Gli ID_SRV rispecchiano il modo in cui i server sono identificati in SERVER_AUTH.
-SERVERS_AUTH = 'servers'
-ID_SRV_DELTA = 'delta'
-ID_SRV_SIGMA = 'sigma'
+SERVERS_AUTH = 'SERVERS'
+ID_SRV_DELTA = 'DELTA'
+ID_SRV_SIGMA = 'SIGMA'
 
 # Lista di tutte le autorizzazioni.
 AUTH = [SERVERS_AUTH,]

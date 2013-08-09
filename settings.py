@@ -28,6 +28,6 @@ RUN_AT = {
 }
 
 INSTALLED_SERVERS = [
-    'apps.server_delta',
-    'apps.server_sigma',
+    'apps.server.delta',
+    'apps.server.sigma',
 ]

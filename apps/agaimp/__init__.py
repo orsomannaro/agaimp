@@ -7,7 +7,7 @@ from apps.localparam.controllers import params
 
 from .views import SystrayApp, Popup
 
-from .mysol import MainFrame, SysOutListener
+from .mysol import MainFrame, sol
 
 
 class aGaiMpSysApp(SystrayApp):
@@ -55,7 +55,7 @@ class aGaiMp(wx.App):
         self.frame = MainFrame(None, -1, 'rebinding stdout')
         self.frame.Show(True)
         self.frame.Center()
-        servers_publisher.subscribe(SysOutListener)
+        servers_publisher.subscribe(sol)
 
     def OnClose(self, event):
         self.exit()

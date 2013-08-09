@@ -91,3 +91,6 @@ class SysOutListener:
     def publish(self, string):
         evt = myNewMsg(text=string)
         wx.PostEvent(wx.GetApp().frame.output_window, evt)  # invia evento 'messaggi disponibili' a MyApp.frame.output_window
+
+
+sol = SysOutListener()

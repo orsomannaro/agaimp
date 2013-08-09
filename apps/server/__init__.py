@@ -6,7 +6,7 @@ import threading
 
 #SERVER_TOPIC = 'server.messages'  # Publisher topic
 
-from apps.pubsub import Publisher
+from apps.pubsub import Publisher, SubscriberStdOut
 
 servers_publisher = Publisher('servers_publisher')  # chi vuole leggere i messaggi dei server si iscrive qui
 
@@ -62,3 +62,6 @@ class Server(object):
     def start(self):
         self.__thread = self.__new_thread()
         self.__thread.start()
+
+
+servers_publisher.subscribe(SubscriberStdOut())

@@ -1,7 +1,7 @@
-from apps.agaimp.server import wxServer
+from apps.server import Server
 
 
-class DeltaServer(wxServer):
+class DeltaServer(Server):
     def __init__(self):
         super(DeltaServer, self).__init__()
         self.id_srv = 'delta'

@@ -1,30 +1,49 @@
+from settings import RUN_AT, INSTALLED_SERVERS
+
+# Carica server
+for server in INSTALLED_SERVERS:
+    __import__(server)
+
+
+from apscheduler.scheduler import Scheduler
 from threading import Thread
 
+from apps.userauth.controllers import user_auth
 
-class ServerMount(type):
+from apps.server import Server
+
+
+class Importer(object):
+    """ Importazione dai server
     """
-    Colleziona classi derivate da Server.
-    _servers: lista delle classi
-    """
-    def __init__(cls, name, bases, attrs):
-        # Questa parte viene eseguita ogni volta che
-        # una classe dichiara __metaclass__ = ServerMount
-        if not hasattr(cls, '_servers'):
-            cls._servers = []
-        else:
-            cls._servers.append(cls)
+    def __init__(self):
+        self._sched = Scheduler()
+        self._sched.start()
+        self._servers = []
+        for server in Server.get_servers():
+            print 'Add %s server' % server.id_srv
+            self._servers.append(server)
+        print '\n'
 
-    def get_servers(self, *args, **kwargs):
-        """ Torna una lista di tuple con le classi derivate da Server
-        """
-        return [srv(*args, **kwargs) for srv in self._servers]
+    def schedule(self):
+        # By default, no two instances of the same job will be run concurrently.
+        self._sched.add_interval_job(self.execute, seconds=3)
+        # self._sched.add_cron_job(self.execute,
+        #                          day_of_week=RUN_AT['day_of_week'],
+        #                          hour=RUN_AT['hour'],
+        #                          minute=RUN_AT['minute'])
+
+    def execute(self):
+        for server in self._servers:
+            # if user_auth.sever(server.id_srv):
+            print '%s server is alive: %s' % (server.id_srv, server.isAlive())
+            if not server.isAlive():
+                print ' %s server start' % server.id_srv
+                server.start()
+        print '\n'
+
+    def shutdown(self):
+        self._sched.shutdown()
 
 
-class Server(Thread):
-    """
-    Una app che importa dati da un server deve estendere questa classe,
-    assegnare un valore a 'id_srv' e implementare il metodo 'read'.
-    """
-    __metaclass__ = ServerMount
-
-    id_srv = ''
+importer = Importer()

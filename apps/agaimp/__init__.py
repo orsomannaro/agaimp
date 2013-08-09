@@ -4,14 +4,13 @@ from apscheduler.scheduler import Scheduler
 
 from settings import AGAIN_LOGO, TRAY_ICON, TRAY_TOOLTIP, TRAY_ICON_WRN, TRAY_ICON_ERR
 
-from apps.importer.controllers import Importer
+from apps.server import SERVER_TOPIC
 from apps.localparam.controllers import params
 
 from .views import SystrayApp, Popup
 
 from wx.lib.pubsub.pub import Publisher
 
-from .server import SERVER_TOPIC
 
 
 class aGaiMpSysApp(SystrayApp):
@@ -45,25 +44,18 @@ class aGaiMp(wx.App):
     def __init__(self):
         wx.App.__init__(self, redirect=0)
 
+        # Systray
         menu = [
             ('Exit', self.OnClose),
             ('Parametri', params.OnEdit),
         ]
         self.systrayapp = aGaiMpSysApp(TRAY_ICON, TRAY_TOOLTIP, menu)  # systray app
+
+        # Pupoup
         self.popup = Popup(AGAIN_LOGO)
-        self.importer = Importer()
 
         # Create a pubsub receiver.
         Publisher().subscribe(self.update_display, SERVER_TOPIC)
-
-        # Importer
-        self.importer = Importer()
-        try:
-            self.importer.execute()
-        except:
-            raise
-        # else:
-        #     self.importer.schedule()
 
         # main timer routine
         # timer = wx.Timer(self, -1)
@@ -93,7 +85,6 @@ class aGaiMp(wx.App):
 
     def exit(self):
         # close objects and end
-        self.importer.shutdown()
         self.systrayapp.close()
         self.Exit()
 

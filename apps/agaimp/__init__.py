@@ -7,6 +7,8 @@ from apps.localparam.controllers import params
 
 from .views import SystrayApp, Popup
 
+from .mysol import MainFrame, SysOutListener
+
 
 class aGaiMpSysApp(SystrayApp):
     def __init__(self, icon, tooltip, menu, frame=None):
@@ -47,8 +49,13 @@ class aGaiMp(wx.App):
         self.systrayapp = aGaiMpSysApp(TRAY_ICON, TRAY_TOOLTIP, menu)  # systray app
 
         # Popup
-        self.popup = Popup(AGAIN_LOGO)
-        servers_publisher.subscribe(self)
+        # self.popup = Popup(AGAIN_LOGO)
+        # servers_publisher.subscribe(self)
+
+        self.frame = MainFrame(None, -1, 'rebinding stdout')
+        self.frame.Show(True)
+        self.frame.Center()
+        servers_publisher.subscribe(SysOutListener)
 
     def OnClose(self, event):
         self.exit()

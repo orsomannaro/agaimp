@@ -1,10 +1,14 @@
 import threading
-import wx
+# import wx
+#
+# from wx.lib.pubsub.pub import Publisher
 
-from wx.lib.pubsub.pub import Publisher
 
+#SERVER_TOPIC = 'server.messages'  # Publisher topic
 
-SERVER_TOPIC = 'server.messages'  # Publisher topic
+from apps.pubsub import Publisher
+
+servers_publisher = Publisher('servers_publisher')  # chi vuole leggere i messaggi dei server si iscrive qui
 
 
 class ServerMount(type):
@@ -35,6 +39,7 @@ class Server(object):
 
     def __init__(self):
         self.id_srv = ''  # id del server
+        self.publisher = servers_publisher
         self.__thread = self.__new_thread()
 
     def __new_thread(self):
@@ -49,10 +54,10 @@ class Server(object):
         """
         pass
 
-    def send_message(self, message):
-        """ Send message to publisher
-        """
-        wx.CallAfter(Publisher().sendMessage, SERVER_TOPIC, message)
+    # def send_message(self, message):
+    #     """ Send message to publisher
+    #     """
+    #     wx.CallAfter(Publisher().sendMessage, SERVER_TOPIC, message)
 
     def start(self):
         self.__thread = self.__new_thread()

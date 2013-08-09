@@ -103,7 +103,7 @@ class Popup(wx.Frame):
         self.popped = 0
         self.hide()
 
-    def show(self, text):
+    def write(self, text):
         """ Shows the popup
         """
         # create new text

@@ -3,7 +3,6 @@
 import os
 import sys
 
-
 from apscheduler.scheduler import Scheduler
 
 from settings import *
@@ -18,22 +17,23 @@ if __name__ == '__main__':
     sys.path.insert(0, os.path.join(PROJECT_ROOT, 'apps'))
     sys.path.insert(0, os.path.join(PROJECT_ROOT, 'libs'))
 
-    # App
-    agaimp = aGaiMp()
-
     # Importer
     try:
         importer.execute()
     except:
         raise
-    else:
-        scheduler = Scheduler()
-        scheduler.start()
-        scheduler.add_interval_job(importer.execute, seconds=3)
-        scheduler.add_cron_job(importer.execute,
-                               day_of_week=RUN_AT['d'],
-                               hour=RUN_AT['h'],
-                               minute=RUN_AT['m'])
 
+    # Scheduler
+    sched = Scheduler()
+    sched.start()
+    sched.add_interval_job(importer.execute, seconds=3)
+    sched.add_cron_job(importer.execute,
+                       day_of_week=RUN_AT['d'],
+                       hour=RUN_AT['h'],
+                       minute=RUN_AT['m'])
+
+    # App
+    agaimp = aGaiMp()
     agaimp.MainLoop()
-    scheduler.shutdown()
+
+    sched.shutdown()

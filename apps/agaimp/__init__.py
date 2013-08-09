@@ -48,10 +48,15 @@ class aGaiMp(wx.App):
 
         # Popup
         self.popup = Popup(AGAIN_LOGO)
-        servers_publisher.subscribe(self.popup)
+        servers_publisher.subscribe(self)
 
     def OnClose(self, event):
         self.exit()
+
+    def publish(self, message):
+        dlg = wx.MessageDialog(self, message, wx.OK | wx.ICON_INFORMATION)
+        dlg.ShowModal()
+        dlg.Destroy()
 
     def exit(self):
         self.systrayapp.close()

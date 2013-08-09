@@ -13,4 +13,5 @@ class Publisher:
 
     def write(self, message):
         for subscriber in self._subscribers:
-            subscriber.write(message)
+            #TODO: qui e' meglio usare un thread (magari daemon)?
+            subscriber.publish(message)

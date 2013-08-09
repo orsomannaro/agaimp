@@ -40,7 +40,7 @@ class MainFrame(wx.Frame):
         self.worker = Worker(self, self.requestQ, self.resultQ)
 
     def OnUpdateOutputWindow(self, event):
-        value = event.text
+        value = '%s\n' % event.text
         self.output_window.AppendText(value)
 
     def OnBeginTest(self, event):

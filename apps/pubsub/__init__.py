@@ -12,13 +12,17 @@ class Publisher(object):
     def unsubscribe(self, subscriber):
         self._subscribers.remove(subscriber)
 
-    def publish(self, message):
+    def __publish(self, message):
         for subscriber in self._subscribers:
-            t = threading.Thread(target=subscriber.publish, args=([message]))
-            t.daemon = True
-            t.start()
+            if hasattr(subscriber, 'publish'):
+                subscriber.publish(message)
+
+    def publish(self, message):
+        t = threading.Thread(target=self.__publish, args=([message]))
+        t.daemon = True
+        t.start()
 
 
 class SubscriberStdOut(object):
-    def publish(self, message):
+    def publis(self, message):
         print message

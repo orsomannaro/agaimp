@@ -47,7 +47,6 @@ class LocalParam(object):
                 json_param = json.load(f)
             self._params = json.loads(json_param)
         except:
-            #TODO: gestire eccezione
             raise
 
     def save(self):
@@ -59,7 +58,6 @@ class LocalParam(object):
             with open(self.file, 'w') as f:
                 json.dump(json_param, f)
         except:
-            #TODO: gestire eccezione
             raise
 
     @property

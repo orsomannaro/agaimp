@@ -1,6 +1,6 @@
 import threading
 
-from apps.pubsub import Publisher, SubscriberStdOut
+from libs.pubsub import Publisher, SubscriberStdOut
 
 
 servers_publisher = Publisher('servers_publisher')  # chi vuole leggere i messaggi dei server si iscrive qui

@@ -1,5 +1,5 @@
 """
-Gestione dei parametri su file_name.
+Gestione dei parametri su <file_name>.
 
 Creazione, caricamento e salvataggio in formato json.
 Ogni parametro e' leggibile e aggiornabile come proprieta'.
@@ -14,15 +14,14 @@ dei controlli associati ai parametri, le relative costanti PARAM_.
 import os
 import uuid
 
-from settings import DATA_DIR
-
 from . import PARAM_UUID, PARAM_IP_DELTA, PARAM_IP_SIGMA
 
 
 class LocalParam(object):
-    """ Parametri locali """
+    """ Parametri locali
+    """
     def __init__(self, file_name):
-        self.file = os.path.join(DATA_DIR, file_name)
+        self.file = file_name  # full path
         self._params = {}  # parametri
         if not os.path.isfile(self.file):
             self.reset()

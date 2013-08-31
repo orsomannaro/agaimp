@@ -27,7 +27,7 @@ class UserAuth(object):
     def get_CORRETTA(self):
         """
         Effettua login a self.ulr e legge autorizzazioni.
-        :param usr: UUID installazione registrato sul sito (params.param_uuid)
+        :param usr: UUID installazione registrato sul sito (localparam.param_uuid)
         :return: dizionario autorizzazioni.
         """
         req = requests.get(self.url, auth=(self.usr, self.pwd))

@@ -30,15 +30,16 @@ class AgaimparamView(Paramenters):
         self.Close()
 
 
-class EditParams(AgaimparamView):
+class EditParamsView(AgaimparamView):
     """ Edit parametri tramite form.
     """
-    def __init__(self, parent, params_obj):
+    def __init__(self, params_obj, parent=None):
         """
         :param params_obj: istanza della classe LocalParam
         """
         AgaimparamView.__init__(self, parent)
         self.params_obj = params_obj
+        self.Show()
 
     def OnLoadData(self, event):
         """ Carica i parametri.

@@ -31,11 +31,11 @@ class UserAuth(object):
         :return: dizionario autorizzazioni.
         """
         req = requests.get(self.url, auth=(self.usr, self.pwd))
-        if req.ok:
-            # Recupero dizionario autorizzazioni utente.
-            user_auth = req.json()
-            return user_auth
-        return {}
+        # if req.ok:
+        #     # Recupero dizionario autorizzazioni utente.
+        #     user_auth = req.json()
+        #     return user_auth
+        return req.json() if req.ok else {}
 
     def sever(self, id_srv):
         """ Ritorna True se id_srv e' abilitato.

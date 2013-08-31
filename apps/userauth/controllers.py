@@ -3,7 +3,16 @@ from settings import AGAIN_URL
 from apps.localparam.controllers import params
 
 from .models import UserAuth
-from .utils import get_pwd
+
+
+def get_pwd(uuid):
+    """
+    Calcola la password in base all'uuid dell'installazione.
+    :param uuid: uuid dell'installazione
+    :return: password
+    """
+    import hashlib
+    return str(hashlib.sha1(uuid).hexdigest())
 
 
 #user_auth = UserAuth(AGAIN_URL, params.param_uuid, get_pwd(params.param_uuid))

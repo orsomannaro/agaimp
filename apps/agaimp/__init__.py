@@ -4,7 +4,6 @@ from settings import AGAIN_LOGO, TRAY_ICON, TRAY_TOOLTIP, TRAY_ICON_WRN, TRAY_IC
 
 from apps.server import servers_publisher
 from apps.localparam.controllers import localparam
-from apps.localparam.views import EditParamsView
 
 from .views import SystrayApp, Popup
 
@@ -62,7 +61,7 @@ class aGaiMp(wx.App):
         self.exit()
 
     def OnEditParams(self, event):
-        EditParamsView(localparam)
+        localparam.edit()
 
     def publish(self, message):
         dlg = wx.MessageDialog(self, message, wx.OK | wx.ICON_INFORMATION)

@@ -15,6 +15,7 @@ import os
 import uuid
 
 from . import PARAM_UUID, PARAM_IP_DELTA, PARAM_IP_SIGMA
+from .views import EditParamsView
 
 
 class LocalParam(object):
@@ -36,6 +37,9 @@ class LocalParam(object):
             PARAM_IP_DELTA: '0.0.0.0',
             PARAM_IP_SIGMA: '0.0.0.0',
         }
+
+    def edit(self):
+        EditParamsView(self)
 
     def load(self):
         """ Carica i parametri dal file """

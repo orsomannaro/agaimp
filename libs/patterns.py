@@ -18,5 +18,9 @@ class Publisher(object):
 
 
 class SubscriberStdOut(object):
-    def publis(self, message):
+    """
+    Usata per debug al fine di stampare sulla console
+    messaggi dei Publisher
+    """
+    def publish(self, message):
         print message

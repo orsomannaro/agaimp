@@ -54,4 +54,4 @@ class Server(object):
         self.__thread.start()
 
 
-servers_publisher.subscribe(SubscriberStdOut())
+#servers_publisher.subscribe(SubscriberStdOut())  # SubscriberStdOut e' usata per debug

@@ -5,9 +5,7 @@ from settings import AGAIN_LOGO, TRAY_ICON, TRAY_TOOLTIP, TRAY_ICON_WRN, TRAY_IC
 from apps.server import servers_publisher
 from apps.localparam.controllers import localparam
 
-from .views import SystrayApp, Popup
-
-from .mysol import MainFrame, sol
+from .views import SystrayApp
 
 
 class aGaiMpSysApp(SystrayApp):
@@ -44,18 +42,12 @@ class aGaiMp(wx.App):
         # Systray
         menu = [
             ('Exit', self.OnClose),
+            ('Logs', self.OnShowLogs),
             ('Parametri', self.OnEditParams),
         ]
         self.systrayapp = aGaiMpSysApp(TRAY_ICON, TRAY_TOOLTIP, menu)  # systray app
 
-        # Popup
-        # self.popup = Popup(AGAIN_LOGO)
-        # servers_publisher.subscribe(self)
-
-        self.frame = MainFrame(None, -1, 'rebinding stdout')
-        self.frame.Show(True)
-        self.frame.Center()
-        servers_publisher.subscribe(sol)
+        self.logs = ''
 
     def OnClose(self, event):
         self.exit()
@@ -63,10 +55,11 @@ class aGaiMp(wx.App):
     def OnEditParams(self, event):
         localparam.edit()
 
+    def OnShowLogs(self, event):
+        pass
+
     def publish(self, message):
-        dlg = wx.MessageDialog(self, message, wx.OK | wx.ICON_INFORMATION)
-        dlg.ShowModal()
-        dlg.Destroy()
+        self.logs += '%s\n' % message
 
     def exit(self):
         self.systrayapp.close()

@@ -17,24 +17,24 @@ if __name__ == '__main__':
     sys.path.insert(0, os.path.join(PROJECT_ROOT, 'apps'))
     sys.path.insert(0, os.path.join(PROJECT_ROOT, 'libs'))
 
-    # Start importer
+    # Importer
     try:
         importer.execute()
     except:
         raise
 
-    # Start scheduler
+    # Scheduler
     sched = Scheduler()
     sched.start()
-    sched.add_interval_job(importer.execute, seconds=3)
-    sched.add_cron_job(importer.execute,
-                       day_of_week=RUN_AT['d'],
-                       hour=RUN_AT['h'],
-                       minute=RUN_AT['m'])
+    sched.add_interval_job(importer.execute, seconds=3)  # solo per test
+    #sched.add_cron_job(importer.execute,
+    #                   day_of_week=RUN_AT['d'],
+    #                   hour=RUN_AT['h'],
+    #                   minute=RUN_AT['m'])
 
-    # Start app
+    # App
     agaimp = aGaiMp()
     agaimp.MainLoop()
 
-    # Stop
+    # Quit
     sched.shutdown()

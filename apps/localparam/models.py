@@ -14,7 +14,7 @@ dei controlli associati ai parametri, le relative costanti PARAM_.
 import os
 import uuid
 
-from .const import PARAM_UUID, PARAM_IP_DELTA, PARAM_IP_SIGMA
+from . import PARAM_UUID, PARAM_IP_DELTA, PARAM_IP_SIGMA
 from .views import EditParamsView
 
 

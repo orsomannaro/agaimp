@@ -42,7 +42,6 @@ class Server(object):
         return threading.Thread(target=self.run)
 
     def isAlive(self):
-        print '  %s server is alive: %s' % (self.id_srv, self.__thread.isAlive())
         return self.__thread.isAlive()
 
     def run(self):

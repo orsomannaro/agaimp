@@ -1,9 +1,10 @@
+"""
+Plug-in pattern per la gestione dei server
+"""
+
 import threading
 
-from libs.patterns import Publisher, SubscriberStdOut
-
-
-servers_publisher = Publisher('servers_publisher')  # chi vuole leggere i messaggi dei server si iscrive qui
+from .publisher import servers_publisher
 
 
 class ServerMount(type):
@@ -52,6 +53,3 @@ class Server(object):
     def start(self):
         self.__thread = self.__new_thread()
         self.__thread.start()
-
-
-#servers_publisher.subscribe(SubscriberStdOut())  # SubscriberStdOut e' usata per debug

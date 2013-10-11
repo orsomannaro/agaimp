@@ -1,3 +1,13 @@
+# Publisher:
+# pub = Publisher('nome_publisher')
+
+# Subscriber:
+#class sub(object):
+#    def publish(self, message):
+#        for key, value in message.items():
+#            print '%s: %s' % (key, value)
+#
+#pub.subscribe(sub())
 
 
 class Publisher(object):
@@ -15,12 +25,3 @@ class Publisher(object):
         for subscriber in self._subscribers:
             if hasattr(subscriber, 'publish'):
                 subscriber.publish(message)
-
-
-class SubscriberStdOut(object):
-    """
-    Usata per debug al fine di stampare sulla console
-    messaggi dei Publisher
-    """
-    def publish(self, message):
-        print message

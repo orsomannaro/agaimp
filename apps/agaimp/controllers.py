@@ -26,9 +26,10 @@ class ServerMessages(object):
         Ritorna True se l'utente desidera eliminarli.
         """
         messages = self._messages.getvalue()
-        msg_dlg = ResetCloseDialog(None, title='Messaggi')
-        resp = msg_dlg.response(messages)
-        return messages and resp and self.reset()
+        msg_dlg = ResetCloseDialog()
+        #resp = msg_dlg.response(messages)
+        #return messages and resp and self.reset()
+        msg_dlg.Show(True)
 
     def reset(self):
         self._messages = io.StringIO()

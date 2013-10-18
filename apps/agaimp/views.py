@@ -49,7 +49,7 @@ class SystrayApp(wx.TaskBarIcon):
             raise
 
 
-class ResetCloseDialog(wx.Dialog):
+class ResetCloseDialog(wx.Frame):
     """
     Crea una finestra di dialogo che visualizza:
      - un messaggio
@@ -59,8 +59,41 @@ class ResetCloseDialog(wx.Dialog):
      - 1 se e' stato premuto Reset
     """
 
-    def __init__(self, *args, **kwargs):
-        super(ResetCloseDialog, self).__init__(*args, **kwargs)
+    def __init__(self):
+        wx.Frame.__init__(self, None, - 1, "My Frame", size=(600, 600))
+        panel = wx.Panel(self, - 1)
+        button = wx.Button(panel, label="Add button", pos=wx.DefaultPosition,
+                           size=wx.DefaultSize)
+        self.Bind(wx.EVT_BUTTON, self.OnAddButton, button)
+
+        self.scrolledPanel = scrolled.ScrolledPanel(panel, - 1,
+                                                    size=wx.DefaultSize)
+        self.scrollPanelSizer = wx.BoxSizer(wx.HORIZONTAL)
+        self.scrolledPanel.SetSizer(self.scrollPanelSizer)
+        self.scrollPanelSizer.Fit(self)
+
+        self.scrolledPanel.SetupScrolling(scroll_x=True, scroll_y=False)
+        self.FitInside()
+
+        sizer = wx.BoxSizer(wx.VERTICAL)
+        sizer.Add(button)
+        sizer.Add(self.scrolledPanel)
+        panel.SetSizer(sizer)
+        panel.Fit()
+
+    def OnAddButton(self, event):
+        self.buttonCount = self.buttonCount + 1
+        print "Add button clicked: ", self.buttonCount
+        button = wx.Button(self.scrolledPanel,
+                           label="Button " + str(self.buttonCount),
+                           pos=(0, 0), size=wx.DefaultSize)
+
+        self.scrollPanelSizer.Add(button, 0, wx.ALL, 1)
+        self.scrollPanelSizer.Fit(self.scrolledPanel)
+        self.SetSizer(self.scrollPanelSizer)
+        self.scrolledPanel.SetupScrolling(scroll_x=True, scroll_y=False)
+        self.scrolledPanel.FitInside()
+
 
     def response(self, message):
 
@@ -68,17 +101,17 @@ class ResetCloseDialog(wx.Dialog):
         sizer = wx.BoxSizer(wx.VERTICAL)
 
         # ScrolledPanel
-        panel = scrolled.ScrolledPanel(self, -1, size=(500, 300),
-                                 style = wx.TAB_TRAVERSAL|wx.SUNKEN_BORDER, name="panel" )
+        scrl_pnl = scrolled.ScrolledPanel(self, -1, size=(500, 300),
+                                 style = wx.TAB_TRAVERSAL|wx.SUNKEN_BORDER, name="scrl_pnl" )
 
-        label = wx.StaticText(panel, -1, message)
+        label = wx.StaticText(scrl_pnl, -1, message)
         msgbox = wx.BoxSizer(wx.VERTICAL)
         msgbox.Add(label, 0, wx.ALIGN_LEFT | wx.ALL, 5)
-        panel.SetSizer(msgbox)
-        panel.SetAutoLayout(1)
-        panel.SetupScrolling()
+        scrl_pnl.SetSizer(msgbox)
+        scrl_pnl.SetAutoLayout(1)
+        scrl_pnl.SetupScrolling()
 
-        sizer.Add(panel, 0, wx.ALIGN_CENTRE | wx.ALL, 5)
+        sizer.Add(scrl_pnl, 0, wx.ALIGN_CENTRE | wx.ALL, 5)
 
         #label = wx.StaticText(self, -1, message)
         #sizer.Add(label, 0, wx.ALIGN_CENTRE | wx.ALL, 5)
@@ -105,6 +138,6 @@ class ResetCloseDialog(wx.Dialog):
         self.SetSizer(sizer)
         sizer.Fit(self)
         self.CenterOnScreen()
-        val = self.ShowModal()  # this does not return until the dialog is closed.
+        val = self.Show()  # this does not return until the dialog is closed.
         self.Destroy()
         return 0 if val == wx.ID_CANCEL else 1

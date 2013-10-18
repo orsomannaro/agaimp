@@ -2,7 +2,7 @@ import wx
 
 from settings import AGAIN_LOGO, TRAY_ICON, TRAY_TOOLTIP, TRAY_ICON_WRN, TRAY_ICON_ERR
 
-from apps.server.publisher import SRV_NAME, SRV_MSG_LVL, SRV_MSG_TXT, ERR_SRV_MSG_LVL, LOG_SRV_MSG_LVL
+from apps.server.publisher import SRV_NAME, SRV_MSG_LVL, SRV_MSG_HMS, SRV_MSG_TXT, ERR_SRV_MSG_LVL, LOG_SRV_MSG_LVL
 from apps.localparam.controllers import localparam
 
 from .controllers import ServerMessages
@@ -65,7 +65,7 @@ class aGaiMp(wx.App):
         """ Messaggi in arrivo dai server
         """
         if message[SRV_MSG_LVL] == ERR_SRV_MSG_LVL:  # messaggio di errore
-            msg = u'%s %s: %s\n' % (message[SRV_NAME], message[SRV_MSG_LVL], message[SRV_MSG_TXT])
+            msg = u'[%s %s] %s\n' % (message[SRV_NAME], message[SRV_MSG_HMS], message[SRV_MSG_TXT])
             self._messages.add(msg)
             self._systrayapp.set_error_icon('aGaiMp: fai click su Messaggi')
 

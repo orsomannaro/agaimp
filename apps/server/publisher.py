@@ -7,8 +7,8 @@ I server possono inviare messaggi tramite il loro attributo 'publisher'
 I messaggi pubblicati dei server devono essere dizionari composti dalle seguenti chiavi;
    SRV_NAME: nome del server (SIGMA, DELTA, ...)
 SRV_MSG_LVL: tipo di messaggio (message|warning|error|...)
+SRV_MSG_HMS: ora del messaggio (ore, minuti, secondi)
 SRV_MSG_TXT: testo del messaggio
-
 """
 
 
@@ -17,6 +17,7 @@ from libs.patterns import Publisher
 
 SRV_NAME = 'server_name'
 SRV_MSG_LVL = 'message_level'
+SRV_MSG_HMS = 'message_time'
 SRV_MSG_TXT = 'message_text'
 
 LOG_SRV_MSG_LVL = 'log'

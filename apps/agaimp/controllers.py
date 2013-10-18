@@ -1,6 +1,6 @@
 import io
 
-from .views import ResetCancelDialog
+from .views import ResetCloseDialog
 
 
 class ServerMessages(object):
@@ -18,7 +18,7 @@ class ServerMessages(object):
         self._messages.close()
 
     def get(self):
-        self._messages.getvalue()
+        return u'%s' % self._messages.getvalue()
 
     def show(self):
         """
@@ -26,7 +26,7 @@ class ServerMessages(object):
         Ritorna True se l'utente desidera eliminarli.
         """
         messages = self._messages.getvalue()
-        msg_dlg = ResetCancelDialog(None, title='Messaggi')
+        msg_dlg = ResetCloseDialog(None, title='Messaggi')
         resp = msg_dlg.response(messages)
         return messages and resp and self.reset()
 

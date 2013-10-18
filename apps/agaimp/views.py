@@ -1,4 +1,5 @@
 import wx
+import wx.lib.scrolledpanel as scrolled
 
 from libs.wx_utils import get_wx_icon
 
@@ -48,7 +49,7 @@ class SystrayApp(wx.TaskBarIcon):
             raise
 
 
-class ResetCancelDialog(wx.Dialog):
+class ResetCloseDialog(wx.Dialog):
     """
     Crea una finestra di dialogo che visualizza:
      - un messaggio
@@ -59,26 +60,47 @@ class ResetCancelDialog(wx.Dialog):
     """
 
     def __init__(self, *args, **kwargs):
-        super(ResetCancelDialog, self).__init__(*args, **kwargs)
+        super(ResetCloseDialog, self).__init__(*args, **kwargs)
 
     def response(self, message):
+
+        # Sizer
         sizer = wx.BoxSizer(wx.VERTICAL)
 
-        label = wx.StaticText(self, -1, message)
-        sizer.Add(label, 0, wx.ALIGN_CENTRE | wx.ALL, 5)
+        # ScrolledPanel
+        panel = scrolled.ScrolledPanel(self, -1, size=(500, 300),
+                                 style = wx.TAB_TRAVERSAL|wx.SUNKEN_BORDER, name="panel" )
 
-        btn_sizer = wx.StdDialogButtonSizer()
+        label = wx.StaticText(panel, -1, message)
+        msgbox = wx.BoxSizer(wx.VERTICAL)
+        msgbox.Add(label, 0, wx.ALIGN_LEFT | wx.ALL, 5)
+        panel.SetSizer(msgbox)
+        panel.SetAutoLayout(1)
+        panel.SetupScrolling()
+
+        sizer.Add(panel, 0, wx.ALIGN_CENTRE | wx.ALL, 5)
+
+        #label = wx.StaticText(self, -1, message)
+        #sizer.Add(label, 0, wx.ALIGN_CENTRE | wx.ALL, 5)
+
+        # Linea divisione
+        #line = wx.StaticLine(self, -1, size=(20, -1), style=wx.LI_HORIZONTAL)
+        #sizer.Add(line, 0, wx.GROW | wx.ALIGN_CENTER_VERTICAL | wx.RIGHT | wx.TOP, 5)
+
+        # Pulsanti
+        btn_sizer = wx.BoxSizer(wx.HORIZONTAL)
 
         btn = wx.Button(self, wx.ID_OK, label='Reset')
-        btn_sizer.AddButton(btn)
+        btn.SetToolTip(wx.ToolTip('Cancella tutti i messaggi'))
+        btn_sizer.Add(btn)
 
-        btn = wx.Button(self, wx.ID_CANCEL, label='Annulla')
+        btn_sizer.Add((0, 0), 1, wx.EXPAND)
+
+        btn = wx.Button(self, wx.ID_CANCEL, label='Chiudi')
         btn.SetDefault()
-        btn_sizer.AddButton(btn)
+        btn_sizer.Add(btn)
 
-        btn_sizer.Realize()  # sistema i pulsanti sul sizer
-
-        sizer.Add(btn_sizer, 0, wx.ALIGN_CENTER_VERTICAL|wx.ALL, 5)
+        sizer.Add(btn_sizer, flag=wx.ALL | wx.EXPAND)
 
         self.SetSizer(sizer)
         sizer.Fit(self)

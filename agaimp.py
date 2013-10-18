@@ -8,7 +8,7 @@ from apscheduler.scheduler import Scheduler
 from settings import *
 
 from apps.agaimp import aGaiMp
-from apps.server import importer
+from apps.server import importer, servers_publisher
 
 
 if __name__ == '__main__':
@@ -34,6 +34,7 @@ if __name__ == '__main__':
 
     # App
     agaimp = aGaiMp()
+    servers_publisher.subscribe(agaimp)
     agaimp.MainLoop()
 
     # Quit

@@ -20,8 +20,16 @@ class SigmaServer(Server):
         for i in range(8):
             time.sleep(1)
             sec = i+1
-            self.publisher.publish({
-                SRV_NAME: self.id_srv,
-                SRV_MSG_LVL: LOG_SRV_MSG_LVL,
-                SRV_MSG_TXT: 'started since %s seconds' % sec,
-            })
+            if i==5:
+                # simulazione errore
+                self.publisher.publish({
+                    SRV_NAME: self.id_srv,
+                    SRV_MSG_LVL: ERR_SRV_MSG_LVL,
+                    SRV_MSG_TXT: '%s:%s' % (datetime.datetime.now().strftime("%H:%M:%S.%f"), 'ERRORE'),
+                })
+            else:
+                self.publisher.publish({
+                    SRV_NAME: self.id_srv,
+                    SRV_MSG_LVL: LOG_SRV_MSG_LVL,
+                    SRV_MSG_TXT: 'started since %s seconds' % sec,
+                })

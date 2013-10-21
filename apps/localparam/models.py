@@ -39,7 +39,7 @@ class LocalParam(object):
         }
 
     def edit(self):
-        EditParamsView(self)
+        EditParamsView(None, self)
 
     def load(self):
         """ Carica i parametri dal file """

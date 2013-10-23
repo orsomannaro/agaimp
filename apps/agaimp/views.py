@@ -96,7 +96,7 @@ class aGaiMpMessages(frm_srv_msg):
         self.txt_messages.Bind(EVT_WX_LOG_EVENT, self.OnLogEvent)
 
     def OnClose(self, event):
-        self.Close()
+        self.Hide()
 
     def OnReset(self, event):
         pass
@@ -104,9 +104,11 @@ class aGaiMpMessages(frm_srv_msg):
     def OnLogEvent(self, event):
         """ Add event.message to text window
         """
-        msg = event.message.strip('\r')+'\n'
-        self.txt_messages.AppendText(msg)
-        event.Skip()
+        if self.IsShown():
+            msg = event.message.strip('\r')+'\n'
+            self.txt_messages.AppendText(msg)
+            #wx.CallAfter(self.txt_messages.AppendText, msg)
+            event.Skip()
 
     def OnShow(self, event):
         if event.Show:

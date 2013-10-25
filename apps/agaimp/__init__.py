@@ -1,9 +1,10 @@
 import wx
 
 from apps.localparam.controllers import localparam
+from apps.messagelogger.controllers import MessageLogger
 from apps.server.publisher import SRV_NAME, SRV_MSG_LVL, SRV_MSG_HMS, SRV_MSG_TXT, ERR_SRV_MSG_LVL
 
-from .controllers import aGaiMpSysApp, aGaiMpMessages
+from .controllers import aGaiMpSysApp
 
 
 class aGaiMp(wx.App):
@@ -23,7 +24,7 @@ class aGaiMp(wx.App):
         self.systrayapp = aGaiMpSysApp(None, menu)
 
         # Gestore messaggi server
-        self.messages = aGaiMpMessages(None)
+        self.messages = MessageLogger(None)
 
     def on_close(self, event):
         # TODO: bisognerebbe gestire arresto dei server

@@ -15,14 +15,14 @@ SRV_MSG_TXT: testo del messaggio
 from libs.patterns import Publisher
 
 
-SRV_NAME = 'server_name'
-SRV_MSG_LVL = 'message_level'
-SRV_MSG_HMS = 'message_time'
-SRV_MSG_TXT = 'message_text'
-
-LOG_SRV_MSG_LVL = 'log'
-WRN_SRV_MSG_LVL = 'warning'
-ERR_SRV_MSG_LVL = 'error'
+#SRV_NAME = 'server_name'
+#SRV_MSG_LVL = 'message_level'
+#SRV_MSG_HMS = 'message_time'
+#SRV_MSG_TXT = 'message_text'
+#
+#LOG_SRV_MSG_LVL = 'log'
+#WRN_SRV_MSG_LVL = 'warning'
+#ERR_SRV_MSG_LVL = 'error'
 
 
 servers_publisher = Publisher('servers_publisher')  # messaggi dei server

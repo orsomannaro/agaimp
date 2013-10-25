@@ -2,6 +2,7 @@
 Plug-in pattern per la gestione dei server
 """
 
+import datetime
 import threading
 
 from .publisher import servers_publisher
@@ -44,6 +45,22 @@ class Server(object):
     def isAlive(self):
         return self.__thread.isAlive()
 
+    def message(self, text, level='log'):
+        """ Invia un messaggio di log
+        """
+        msg = ServerMessage(self.id_srv, level, text)
+        self.publisher.publish(msg)
+
+    def error(self, text):
+        """ Invia un messaggio di errore
+        """
+        self.message(text, 'error')
+
+    def warning(self, text):
+        """ Invia un messaggio di warning
+        """
+        self.message(text, 'warning')
+
     def run(self):
         """ Logica del server
         """
@@ -51,4 +68,29 @@ class Server(object):
 
     def start(self):
         self.__thread = self.__new_thread()
+        self.__thread.daemon = True
         self.__thread.start()
+
+
+class ServerMessage(object):
+    def __init__(self, server, level, text):
+        self._server = server
+        self._level = level
+        self._text = text
+        self._time = datetime.datetime.now().strftime("%H:%M:%S")
+
+    @property
+    def level(self):
+        return self._level
+
+    @property
+    def text(self):
+        return self._text
+
+    @property
+    def server(self):
+        return self._server
+
+    @property
+    def time(self):
+        return self._time

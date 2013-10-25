@@ -17,7 +17,8 @@ AGAIN_URL_SSL = 'https://www.again.it/'
 AGAIN_LOGO = os.path.join(IMAGES_DIR, 'logo_small.png')
 
 # Systray
-TRAY_TOOLTIP = 'aGaiMp'
+TRAY_TOOLTIP_TITLE = 'aGaiMp'
+TRAY_TOOLTIP = 'working'
 TRAY_ICON = os.path.join(IMAGES_DIR, 'trayicon.ico')
 TRAY_ICON_WRN = os.path.join(IMAGES_DIR, 'trayicon_wrn.ico')
 TRAY_ICON_ERR = os.path.join(IMAGES_DIR, 'trayicon_err.ico')

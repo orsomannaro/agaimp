@@ -20,28 +20,29 @@ class aGaiMp(wx.App):
             ('Messaggi', self.on_show_messages),
             ('Parametri', self.on_edit_params),
         ]
-        self._systrayapp = aGaiMpSysApp(None, menu)
+        self.systrayapp = aGaiMpSysApp(None, menu)
 
         # Gestore messaggi server
-        self._messages = aGaiMpMessages(None)
+        self.messages = aGaiMpMessages(None)
 
     def on_close(self, event):
         # TODO: bisognerebbe gestire arresto dei server
-        self._messages.close()
-        self._systrayapp.close()
+        self.messages.close()
+        self.systrayapp.close()
         self.Exit()
 
     def on_edit_params(self, event):
         localparam.edit()
 
     def on_show_messages(self, event):
-        self._systrayapp.set_default_icon()
-        self._messages.show()
+        self.messages.show()
+        self.systrayapp.set_status(self.systrayapp.APP_WORKING)
 
     def publish(self, message):
         """ Messaggi in arrivo dai server
+        :param message: testo del messaggio
         """
         if message[SRV_MSG_LVL] == ERR_SRV_MSG_LVL:  # messaggio di errore
-            msg = '[%s %s] %s' % (message[SRV_NAME], message[SRV_MSG_HMS], message[SRV_MSG_TXT])
-            #self._systrayapp.set_error_icon('aGaiMp: fai click su Messaggi')
-            self._messages.log(msg)
+            msg = '[%s %s] %s' % (message[SRV_NAME], message[SRV_MSG_HMS], message[SRV_MSG_TXT])  # format
+            self.messages.log(msg)
+            self.systrayapp.set_status(self.systrayapp.APP_ERROR, 'fai click su Messaggi')

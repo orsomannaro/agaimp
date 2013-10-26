@@ -1,32 +1,37 @@
-from settings import TRAY_ICON, TRAY_ICON_WRN, TRAY_ICON_ERR, TRAY_TOOLTIP, TRAY_TOOLTIP_WRN, TRAY_TOOLTIP_ERR
+import wx
 
-from .views import SystrayApp
+from apps.localparam.controllers import localparam
+from apps.systrayapp.controllers import aGaiMpSysApp
 
 
-class aGaiMpSysApp(SystrayApp):
-    APP_WORKING = 0
-    APP_WARNING = 1
-    APP_ERROR = 2
+class aGaiMp(wx.App):
+    """
+    Main app
+    """
 
-    def __init__(self, frame, menu, icon=TRAY_ICON, tooltip=TRAY_TOOLTIP):
-        super(aGaiMpSysApp, self).__init__(icon, tooltip, menu, frame)
-        self._status = self.APP_WORKING
+    def __init__(self):
+        wx.App.__init__(self, redirect=0)
 
-    def set_status(self, status):
-        """ Imposta icona e tooltip
-        :param status: APP_WORKING | APP_WARNING | APP_ERROR
-        :param tooltip: tooltip
+        # Systray app
+        menu = [
+            ('Exit', self.on_close),
+            ('Messaggi', self.on_show_messages),
+            ('Parametri', self.on_edit_params),
+        ]
+        self.systrayapp = aGaiMpSysApp(None, menu)
+
+    def on_close(self, event):
+        self.systrayapp.exit()
+        self.Exit()
+
+    def on_edit_params(self, event):
+        localparam.edit()
+
+    def on_show_messages(self, event):
+        self.systrayapp.show_messages()
+
+    def publish(self, message):
+        """ Messaggi in arrivo dai server
         """
-        try:
-            tray = {
-                self.APP_WORKING: (TRAY_ICON, TRAY_TOOLTIP),
-                self.APP_WARNING: (TRAY_ICON_WRN, TRAY_TOOLTIP_WRN),
-                self.APP_ERROR: (TRAY_ICON_ERR, TRAY_TOOLTIP_ERR)
-            }[status]
-        except KeyError:
-            pass  # case statement default action
-        else:
-            if self._status != status:
-                self._status = status
-                icon, tooltip = tray
-                self.set_icon(icon, tooltip)
+        msg = u'[%s] %s (%s): %s' % (message.time, message.server, message.level, message.text)
+        self.systrayapp.message(msg)

@@ -1,4 +1,4 @@
-from settings import AGAIN_URL
+from settings import SITE_URL
 
 from apps.localparam.controllers import localparam
 

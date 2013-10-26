@@ -7,7 +7,7 @@ from apscheduler.scheduler import Scheduler
 
 from settings import *
 
-from apps.agaimp import aGaiMp
+from apps.agaimp.controllers import aGaiMp
 from apps.server import importer, servers_publisher
 
 

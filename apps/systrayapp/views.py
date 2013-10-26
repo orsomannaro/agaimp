@@ -10,11 +10,12 @@ class SystrayApp(wx.TaskBarIcon):
 
     def __init__(self, icon, tooltip, menu, frame=None):
         wx.TaskBarIcon.__init__(self)
-        self.menu = menu
-        self.set_icon(icon, tooltip)
         self.frame = wx.Frame(None)  # serve su OSX altrimenti MainLoop termina
-        # event handlers
         self.Bind(wx.EVT_TASKBAR_LEFT_DOWN, self.OnLeftClick)
+
+        self.menu = menu
+        self._current_icon = ''
+        self.icon(icon, tooltip)
 
     def CreatePopupMenu(self):
         """
@@ -38,11 +39,14 @@ class SystrayApp(wx.TaskBarIcon):
         self.frame.Destroy()
         wx.CallAfter(self.Destroy)
 
-    def set_icon(self, icon_file, icon_tooltip):
+    def icon(self, icon_file, icon_tooltip):
         """ Imposta icona e tooltip.
         """
-        try:
-            icon = get_wx_icon(icon_file)
-            self.SetIcon(icon, icon_tooltip)
-        except:
-            raise
+        if self._current_icon != icon_file:
+            try:
+                icon = get_wx_icon(icon_file)
+                self.SetIcon(icon, icon_tooltip)
+            except:
+                raise
+            else:
+                self._current_icon = icon_file

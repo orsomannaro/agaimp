@@ -23,65 +23,58 @@ class MessageBuffer(object):
     def get(self):
         return self._buffer.getvalue()
 
-    def reset(self):
+    def clear(self):
         self._buffer.close()
         self._buffer .__init__()
 
 
-class MessageMonitor(Thread):
-
-    def __init__(self, widget, log_queue):
-        super(MessageMonitor, self).__init__()
-        self._widget = widget
-        self._logs = log_queue
-        self._running = True
-        self._pause = False
-        self.daemon = True
-
-    def pause(self):
-        self._pause = not self._pause
-
-    def stop(self):
-        self._pause = False
-        self._running = False
-
-    def run(self):
-        print 'start'
-        while self._running:
-            if not self._logs.empty() and not self._pause:
-                evt = wxShowMessageEvent(message=self._logs.get())
-                wx.PostEvent(self._widget, evt)
-        print 'stop'
-
-
 class MessageViewer(object):
+    """
+    Gestisce la visualizzazione di messaggi su wx widget.
+    I messaggi vengono inseriti in una coda.
+    La coda viene evasa da un thread
+     che per ogni messaggio invia evento wxShowMessageEvent a wx widget.
+    """
 
     def __init__(self, widget):
         super(MessageViewer, self).__init__()
         self._widget = widget  # wx.TextCtrl interessato
         self._logs = Queue()  # coda messaggi da visualizzare
-        self._monitor = MessageMonitor(self._widget, self._logs)
+        self._running = True  # fine elaborazione coda messaggi
+        self.pause = False  # pausa elaborazione coda messaggi
+        self._monitor = self._get_monitor()  # settare prima running e pause
+
+    def clear(self):
+        """ Svuota coda messaggi """
+        self._logs.queue.clear()
 
     def log(self, text):
-        self._widget.IsShown() and self._logs.put(text)
-
-    def reset(self):
-        self._logs.queue.clear()
-
-    def pause(self):
-        self._monitor.pause()
-
-    def start(self, text):
-        self._logs.queue.clear()
+        """ Inserisce messaggio in coda messaggi """
         self._logs.put(text)
-        if not self._monitor.is_alive():
-            self._monitor = MessageMonitor(self._widget, self._logs)
-            self._monitor.start()
+
+    def start(self):
+        """ Avvia elaborazione coda messaggi """
+        self.pause = False
+        self._running = True
+        self._monitor = self._get_monitor()
+        self._monitor.start()
 
     def stop(self):
-        self._logs.queue.clear()
-        self._monitor.stop()
+        """ Termina elaborazione coda messaggi """
+        self.pause = False
+        self._running = False
         self._monitor.join()
+
+    def _get_monitor(self):
+        monitor = Thread(target=self._run)
+        monitor.daemon = True
+        return monitor
+
+    def _run(self):
+        while self._running:
+            if not self._logs.empty() and not self.pause:
+                evt = wxShowMessageEvent(message=self._logs.get())
+                wx.PostEvent(self._widget, evt)
 
 
 class MessageLogger(object):
@@ -101,20 +94,25 @@ class MessageLogger(object):
         self._viewer = MessageViewer(self._frm.txt_messages)  # messaggi da visualizzare
 
     def on_close(self, event):
+        self._viewer.clear()
         self._viewer.stop()
         self._frm.Hide()
 
     def on_pause(self, event):
-        self._viewer.pause()
+        self._viewer.pause = not self._viewer.pause  # pausa elaborazione coda messaggi
+        self._frm.btn_reset.Disable() if self._viewer.pause else self._frm.btn_reset.Enable()
 
     def on_reset(self, event):
-        self._buffer.reset()
-        self._viewer.reset()
+        self._buffer.clear()
+        self._viewer.clear()
         self._frm.txt_messages.SetValue('')
 
     def on_log_event(self, event):
-        self._frm.txt_messages.AppendText(event.message)
-        #wx.CallAfter(self._frm.txt_messages.AppendText, event.message)
+        try:
+            self._frm.txt_messages.AppendText(event.message)
+            #wx.CallAfter(self._frm.txt_messages.AppendText, event.message)
+        except:
+            pass
 
     def close(self):
         self._frm.Close()
@@ -122,8 +120,10 @@ class MessageLogger(object):
     def log(self, message):
         msg = message.strip('\r') + '\n'  # formatta
         self._buffer.log(msg)  # memorizza
-        self._viewer.log(msg)  # visualizza
+        self._frm.IsShown() and self._viewer.log(msg)  # visualizza
 
     def show(self):
         self._frm.Show()
-        self._viewer.start(self._buffer.get())
+        self._frm.txt_messages.SetValue(self._buffer.get())
+        self._viewer.clear()
+        self._viewer.start()

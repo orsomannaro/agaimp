@@ -17,6 +17,10 @@ if __name__ == '__main__':
     sys.path.insert(0, os.path.join(PROJECT_ROOT, 'apps'))
     sys.path.insert(0, os.path.join(PROJECT_ROOT, 'libs'))
 
+    # App
+    agaimp = aGaiMp()
+    servers_publisher.subscribe(agaimp)
+
     # Importer
     try:
         importer.execute()
@@ -32,9 +36,6 @@ if __name__ == '__main__':
     #                   hour=RUN_AT['h'],
     #                   minute=RUN_AT['m'])
 
-    # App
-    agaimp = aGaiMp()
-    servers_publisher.subscribe(agaimp)
     agaimp.MainLoop()
 
     # Quit

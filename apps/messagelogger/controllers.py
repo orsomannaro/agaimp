@@ -61,9 +61,10 @@ class MessageViewer(object):
 
     def stop(self):
         """ Termina elaborazione coda messaggi """
-        self.pause = False
-        self._running = False
-        self._monitor.join()
+        if self._monitor.is_alive():
+            self.pause = False
+            self._running = False
+            self._monitor.join()
 
     def _get_monitor(self):
         monitor = Thread(target=self._run)

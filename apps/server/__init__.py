@@ -20,37 +20,36 @@ from .publisher import servers_publisher
 
 class ServerMount(type):
     """
-    Permette di collezionare le sue sottoclassi.
-    _servers: lista delle sottoclassi
+    Sistema di plugin per le classi che dichiarano
+    __metaclass__ = ServerMount
     """
 
     def __init__(cls, name, bases, attrs):
+        """ Colleziona le sottoclassi nella lista _servers """
         if not hasattr(cls, '_servers'):
             cls._servers = []
         else:
             cls._servers.append(cls)
 
     def get_servers(self, *args, **kwargs):
-        """ Torna una lista di tuple con le classi derivate da Server """
+        """ Torna una lista di istanze, una per ogni sottoclasse """
         return [srv(*args, **kwargs) for srv in self._servers]
 
 
 class Server(object):
     """
-    Una app che importa dati da un server deve estendere questa classe,
+    Server importer.
+    Tutti gli importer devono estendere questa classe,
     """
     __metaclass__ = ServerMount
 
     def __init__(self, id_srv):
         self.id_srv = id_srv  # id del server
         self.message = Messenger(self.id_srv, servers_publisher)
-        self.__thread = self.__new_thread()
+        self._thread = self._new_thread()
 
-    def __new_thread(self):
+    def _new_thread(self):
         return threading.Thread(target=self.run)
-
-    def isAlive(self):
-        return self.__thread.isAlive()
 
     def run(self):
         """ Implementazione logica del server """
@@ -58,6 +57,7 @@ class Server(object):
 
     def start(self):
         """ Avvia il server """
-        self.__thread = self.__new_thread()
-        self.__thread.daemon = True
-        self.__thread.start()
+        if not self._thread.is_alive():
+            self._thread = self._new_thread()
+            self._thread.daemon = True
+            self._thread.start()

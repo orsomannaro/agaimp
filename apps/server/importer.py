@@ -9,10 +9,13 @@ from . import Server
 for server in INSTALLED_SERVERS:
     __import__(server)
 
+# Generazione istanze dei server installati (get_servers())
+__servers = []  # lista istanze server
+for server in Server.get_servers():
+    __servers.append(server)
+
 
 # Esegue i server attivi
 def execute():
-    for server in Server.get_servers():
-        if user_auth.sever(server.id_srv):
-            if not server.isAlive():
-                server.start()
+    for server in __servers:
+        user_auth.sever(server.id_srv)and server.start()

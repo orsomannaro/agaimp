@@ -7,9 +7,7 @@ class aGaiMpFrmSettings(FrmSettings):
     def __init__(self, parent, localparam):
         super(aGaiMpFrmSettings, self).__init__(parent)
         self.Bind(wx.EVT_SHOW, self.OnShow)
-
         self.localparam = localparam
-
         self.Show()
 
     def OnCancel(self, event):

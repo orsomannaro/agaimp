@@ -15,13 +15,14 @@ LOGO = os.path.join(IMAGES_DIR, 'logo.png')
 
 SITE_URL = 'www.again.it'
 
-# Server
+# Schedulazione esecuzione dei server
 RUN_AT = {
     'd': 'mon-fri',
     'h': 5,
     'm': 30
 }
 
+# Server installati
 INSTALLED_SERVERS = [
     'apps.server.delta',
     'apps.server.sigma',

@@ -1,7 +1,11 @@
-# Publisher:
-# pub = Publisher('nome_publisher')
+"""
+Implementazione di design patterns.
+"""
 
-# Subscriber:
+# -------------------- Pub/Sub --------------------
+#
+# pub = Publisher('nome_publisher')
+#
 #class sub(object):
 #    def publish(self, message):
 #        for key, value in message.items():
@@ -25,3 +29,5 @@ class Publisher(object):
         for subscriber in self._subscribers:
             if hasattr(subscriber, 'publish'):
                 subscriber.publish(message)
+
+# -------------------- (Pub/Sub) --------------------

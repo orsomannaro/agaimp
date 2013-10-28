@@ -1,3 +1,10 @@
+"""
+Account utente.
+
+NOTE:
+Il login viene effettuato con user=UUID installazione e password=get_pwd(UUID)
+"""
+
 from settings import SITE_URL
 
 from apps.localparam.controllers import localparam

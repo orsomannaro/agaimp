@@ -1,30 +1,37 @@
 """
-Plug-in pattern per la gestione dei server
+Plug-in pattern per la gestione dei server.
+
+Il metodo __init__ di <sottoclasse 'type'> viene eseguito ogni volta che una classe *dichiara*:
+
+ __metaclass__ = <sottoclasse 'type'>
+
+NB: in fase di dichiarazione non di istanziamento!
+
+Quindi, in questo caso, la prima volta viene eseguito in fase di dichiarazione della classe Server
+ e successivamente per ogni server che eredita da questa.
 """
 
-import datetime
 import threading
+
+from libs.utils import Messenger
 
 from .publisher import servers_publisher
 
 
 class ServerMount(type):
     """
-    Colleziona classi derivate da Server.
-    _servers: lista delle classi
+    Permette di collezionare le sue sottoclassi.
+    _servers: lista delle sottoclassi
     """
 
     def __init__(cls, name, bases, attrs):
-        # Questa parte viene eseguita ogni volta che
-        # una classe dichiara __metaclass__ = ServerMount
         if not hasattr(cls, '_servers'):
             cls._servers = []
         else:
             cls._servers.append(cls)
 
     def get_servers(self, *args, **kwargs):
-        """ Torna una lista di tuple con le classi derivate da Server
-        """
+        """ Torna una lista di tuple con le classi derivate da Server """
         return [srv(*args, **kwargs) for srv in self._servers]
 
 
@@ -34,9 +41,9 @@ class Server(object):
     """
     __metaclass__ = ServerMount
 
-    def __init__(self):
-        self.id_srv = ''  # id del server
-        self.publisher = servers_publisher
+    def __init__(self, id_srv):
+        self.id_srv = id_srv  # id del server
+        self.message = Messenger(self.id_srv, servers_publisher)
         self.__thread = self.__new_thread()
 
     def __new_thread(self):
@@ -45,52 +52,12 @@ class Server(object):
     def isAlive(self):
         return self.__thread.isAlive()
 
-    def message(self, text, level='log'):
-        """ Invia un messaggio di log
-        """
-        msg = ServerMessage(self.id_srv, level, text)
-        self.publisher.publish(msg)
-
-    def error(self, text):
-        """ Invia un messaggio di errore
-        """
-        self.message(text, 'error')
-
-    def warning(self, text):
-        """ Invia un messaggio di warning
-        """
-        self.message(text, 'warning')
-
     def run(self):
-        """ Logica del server
-        """
+        """ Implementazione logica del server """
         pass
 
     def start(self):
+        """ Avvia il server """
         self.__thread = self.__new_thread()
         self.__thread.daemon = True
         self.__thread.start()
-
-
-class ServerMessage(object):
-    def __init__(self, server, level, text):
-        self._server = server
-        self._level = level
-        self._text = text
-        self._time = datetime.datetime.now().strftime("%H:%M:%S")
-
-    @property
-    def level(self):
-        return self._level
-
-    @property
-    def text(self):
-        return self._text
-
-    @property
-    def server(self):
-        return self._server
-
-    @property
-    def time(self):
-        return self._time

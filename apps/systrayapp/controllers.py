@@ -27,8 +27,7 @@ class aGaiMpSysApp(SystrayApp):
         self.status(self.APP_WARNING)
 
     def status(self, status):
-        """ Imposta icona e tooltip
-        """
+        """ Imposta icona e tooltip """
         try:
             tray = self.APP_STATUS[status]
         except KeyError:

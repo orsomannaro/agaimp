@@ -5,6 +5,7 @@ from time import sleep
 
 
 ID_SERVER = 'DELTA'  # server ID su aGain
+DATA_FILE = 'delta.dat'
 
 
 class DeltaServer(Server):

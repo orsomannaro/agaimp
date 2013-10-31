@@ -18,9 +18,9 @@ for server in Server.get_servers():
 # Esegue i server attivi
 def execute():
     for server in __servers:
-        user_auth.sever(server.id_srv)and server.start()
+        user_auth.sever(server.id_srv) and server.start()
 
 
 # Lista degli id_srv
-def get_server_id():
-    return [server.id_srv for server in __servers]
+def get_auth_servers():
+    return [server.id_srv for server in __servers if user_auth.sever(server.id_srv)]

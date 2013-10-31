@@ -1,82 +1,122 @@
 """
-NOTA:
-il codice fa fede nella convenzione che il nome del file corrisponde al nome dell'impoter.
+Gestione upload file letti dai server di agenzia su server aGain.
+
+I file da inviare vengono copiati in una directory di lavoro
+ e rinominati <nome file>_<id_server>.agaimp
+
+La directory di lavoro viene monitorata verificando la presenza di file .agaimp
+ i quali, uno alla volta, vengono inviati al server aGain.
+
+Un file in fase di invio viene rinominato come <uuid installazione>_<id_server>.again
+
+La funzione di invio fa l'upload su aGain dei file <uuid installazione>_<id_server>.again
+ presenti nella directory di lavoro.
 """
 
 import os
+import requests
 import shutil
+
 from time import sleep
 from threading import Thread
 
-import requests
-
-from settings import SITE_URL, DATA_DIR
+from settings import SITE_URL, UPLOAD_DIR
 from apps.localparam import PARAM_UUID
 from apps.localparam.controllers import localparam
-from apps.server.importer import get_server_id
+from apps.server.importer import get_auth_servers
 
 
-importer_uuid = localparam.params[PARAM_UUID]
 site = SITE_URL
+upload_dir = UPLOAD_DIR
+uuid = localparam.params[PARAM_UUID]
 
-upload_dir = os.path.join(DATA_DIR, 'upload')  # directory file da uploadare
-os.path.exists(upload_dir) or os.makedirs(upload_dir)
-
-send_dir = os.path.join(DATA_DIR, 'sending')  # directory di lavoro
-os.path.exists(send_dir) or os.makedirs(send_dir)
-
-
-def _supply_file(file_path, importer=''):
-    if importer:
-        dest = os.path.join(upload_dir, importer)  # per convenzione <nome file> = <nome importer>
-        supplier = shutil.copy
-    else:
-        dest = os.path.join(send_dir, os.path.basename(file_path))
-        supplier = shutil.move
-    try:
-        supplier(file_path, dest)
-    except shutil.Error as e:  # eg. src and dest are the same file
-        return None  # print('Error: %s' % e)
-    except IOError as e:  # eg. source or destination doesn't exist
-        return None  # print('Error: %s' % e.strerror)
-    return dest
+uploading_fixed_name = uuid
+separator = '_-__-_'
+ready_ext = '.ready'
+waiting_ext = '.waiting'
 
 
-def _list_dir(dir_name):
-    return [os.path.join(dir_name, name) for name in os.listdir(dir_name) if
-            os.path.isfile(os.path.join(dir_name, name)) and name in get_server_id()]
+def _get_importer(file_path, suffix=ready_ext):
+    name_sep_importer, ext = os.path.splitext(os.path.basename(file_path))
+    if ext == suffix:
+        try:
+            name, importer = name_sep_importer.split(separator, 1)
+        except:
+            return ''
+        else:
+            return importer
+    return ''
 
 
-def _send_file(file_path):
-    importer = os.path.basename(file_path)
-    url = '%s/api/v0/agent/%s/send/' % (site, importer_uuid)
-    payload = {'importer': importer, 'file_path': file_path}
-    r = requests.post(url, data=payload)
-    os.remove(file_path)
+def _get_ready_file(file_path):
+    name_sep_importer, ext = os.path.splitext(os.path.basename(file_path))
+    if ext == waiting_ext:
+        return os.path.join(upload_dir, '%s%s' % (name_sep_importer, ready_ext))
+    return ''
 
 
-def _sending():
-    while True:
-        for file_path in _list_dir(send_dir):
-            _send_file(file_path)
-        sleep(60)
+def _get_waiting_file(file_path, importer):
+    return os.path.join(upload_dir, '%s%s%s%s' % (os.path.basename(file_path), separator, importer, waiting_ext))
 
 
-def upload(file_path, importer):
-    _supply_file(file_path, importer)  # import file
+def _list_dir(ext):
+    """
+    Restituisce la lista dei file con estensione 'ext'
+     presenti nella directory di lavoro.
+    """
+    return [os.path.join(upload_dir, name) for name in os.listdir(upload_dir) if
+            os.path.isfile(os.path.join(upload_dir, name)) and name.endswith(ext)]
+
+
+def _upload():
+    """
+    Considera i file in fase di invio presenti nella directory di lavoro
+     (tipicamente uno solo).
+    Controlla se il server e' abilitato all'invio e in caso affermativo
+     carica il file su aGain.
+    """
+    for file_path in _list_dir(ready_ext):
+        importer = _get_importer(file_path)
+        if importer in get_auth_servers():
+            url = '%s/api/v0/agent/%s/send/' % (site, uuid)
+            payload = {'importer': importer, 'file_path': file_path}
+            r = requests.post(url, data=payload)
+            if r.status_code == requests.codes.ok:
+                os.remove(file_path)
 
 
 def _uploading():
+    """
+    Considera i file in attesa di invio presenti nella directory di lavoro.
+    Uno alla volta li rinomina in modo adeguato e li invia.
+    """
     while True:
-        for file_path in _list_dir(upload_dir):
-            _supply_file(file_path)
-        sleep(60)
+        _upload()  # elabora eventuale upload sospeso
+        for file_path in _list_dir(waiting_ext):
+            try:
+                shutil.move(file_path, _get_ready_file(file_path))
+            except:
+                pass
+            else:
+                _upload()  # esegui upload
+        sleep(5*60)
 
 
-uploader = Thread(target=_uploading)
-uploader.daemon = True
-uploader.start()
+def upload(file_path, importer, zip_ext=''):
+    """
+    Importa i file nella directory di lavoro
+     rinominandoli in modo adeguato.
+    """
+    if zip_ext:
+        file_zip = os.path.join(upload_dir, os.path.basename(file_path))
+        shutil.make_archive(file_zip, zip_ext, file_path)
+        file_zip = '%s.%s' % (file_zip, zip_ext)
+        shutil.move(file_zip, _get_waiting_file(file_path, importer))
+    else:
+        shutil.copy(file_path, _get_waiting_file(file_path, importer))
 
-sender = Thread(target=_sending)
+
+# Avvio thread di monitoraggio della directory di lavoro.
+sender = Thread(target=_uploading)
 sender.daemon = True
 sender.start()

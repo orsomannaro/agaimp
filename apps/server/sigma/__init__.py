@@ -5,6 +5,7 @@ from time import sleep
 
 
 ID_SERVER = 'SIGMA'  # server ID su aGain
+DATA_FILE = 'sigma.dat'
 
 
 class SigmaServer(Server):

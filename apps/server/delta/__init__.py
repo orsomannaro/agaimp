@@ -1,11 +1,11 @@
 # coding: latin-1
 
+import time
+
 from .. import Server
-from time import sleep
 
 
-ID_SERVER = 'DELTA'  # server ID su aGain
-DATA_FILE = 'delta.dat'
+ID_SERVER = 'sai_delta'  # server ID su aGain
 
 
 class DeltaServer(Server):
@@ -16,9 +16,6 @@ class DeltaServer(Server):
     def run(self):
         self.message.log('Inizio import')
         for i in range(1, 10):
-            if i % 2 == 0:
-                self.message.warning('%s' % i)
-            else:
-                self.message.error('%s' % i)
-            sleep(1)
+            self.message.log('%s' % i)
+            time.sleep(1)
         self.message.log('Fine import')

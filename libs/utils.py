@@ -1,8 +1,8 @@
+import datetime
+
 
 # -------------------- Messenger --------------------
 # Istanziando Messenger si possono inviare Message via publisher
-
-import datetime
 
 
 MSG_LVL_ERR = 'error'
@@ -40,5 +40,6 @@ class Message(object):
         self.sender = sender
         self.text = text
         self.time = datetime.datetime.now().strftime("%H:%M:%S")
+
 
 # -------------------- (Messenger) --------------------

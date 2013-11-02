@@ -1,8 +1,7 @@
 from settings import INSTALLED_SERVERS
 
+from apps.server import Server
 from apps.userauth.controllers import user_auth
-
-from . import Server
 
 
 # Inizializza tutti i server installati
@@ -16,7 +15,8 @@ for server in Server.get_servers():
 
 
 # Esegue i server attivi
-def execute():
+def start():
+    global __servers
     for server in __servers:
         user_auth.sever(server.id_srv) and server.start()
 

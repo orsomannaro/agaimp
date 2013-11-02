@@ -14,8 +14,7 @@ Quindi, in questo caso, la prima volta viene eseguito in fase di dichiarazione d
 import threading
 
 from libs.utils import Messenger
-
-from .publisher import servers_publisher
+from libs.patterns import Publisher
 
 
 class ServerMount(type):
@@ -61,3 +60,6 @@ class Server(object):
             self._thread = self._new_thread()
             self._thread.daemon = True
             self._thread.start()
+
+
+servers_publisher = Publisher('servers_publisher')  # messaggi dei server

@@ -18,9 +18,11 @@ class UserAuth(object):
         """ Effettua login a self.url e ritorna la lista delle autorizzazioni """
         #req = requests.get(self.url, auth=(self.usr, self.pwd))
         #return req.json() if req.ok else {}
-        return {SERVERS_AUTH: [('DELTA', True), ('SIGMA', True)]}
+        return {SERVERS_AUTH: [('sai_delta', False), ('sai_sigma', True)]}
 
     def sever(self, id_srv):
         """ Ritorna True se id_srv e' abilitato """
         server_auth = dict(self.auth(SERVERS_AUTH))
-        return server_auth[id_srv]
+        if id_srv in server_auth:
+            return server_auth[id_srv]
+        return False

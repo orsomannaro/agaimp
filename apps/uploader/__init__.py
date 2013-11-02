@@ -16,18 +16,20 @@ La funzione di invio fa l'upload su aGain dei file <uuid installazione>_<id_serv
 import os
 import requests
 import shutil
+import time
+import threading
 
-from time import sleep
-from threading import Thread
+from settings import SITE_URL, DATA_UPLOAD_DIR
 
-from settings import SITE_URL, UPLOAD_DIR
 from apps.localparam import PARAM_UUID
 from apps.localparam.controllers import localparam
-from apps.server.importer import get_auth_servers
+from apps.importer import get_auth_servers
 
+
+CHECK_FREQ = 5
 
 site = SITE_URL
-upload_dir = UPLOAD_DIR
+upload_dir = DATA_UPLOAD_DIR
 uuid = localparam.params[PARAM_UUID]
 
 uploading_fixed_name = uuid
@@ -79,10 +81,19 @@ def _upload():
         importer = _get_importer(file_path)
         if importer in get_auth_servers():
             url = '%s/api/v0/agent/%s/send/' % (site, uuid)
-            payload = {'importer': importer, 'file_path': file_path}
+            payload = {'importer': importer, 'filepath': file_path}
+
+            print 'url: %s' % url
+            print 'payload: %s' % payload
+
             r = requests.post(url, data=payload)
+
+            print 'status: %s' % r.status_code
+
             if r.status_code == requests.codes.ok:
                 os.remove(file_path)
+        else:
+            os.remove(file_path)
 
 
 def _uploading():
@@ -99,7 +110,12 @@ def _uploading():
                 pass
             else:
                 _upload()  # esegui upload
-        sleep(5*60)
+        time.sleep(CHECK_FREQ)
+
+
+def start():
+    global _sender
+    _sender.start()
 
 
 def upload(file_path, importer, zip_ext=''):
@@ -109,14 +125,12 @@ def upload(file_path, importer, zip_ext=''):
     """
     if zip_ext:
         file_zip = os.path.join(upload_dir, os.path.basename(file_path))
-        shutil.make_archive(file_zip, zip_ext, file_path)
+        shutil.make_archive(file_zip, zip_ext, file_path)  # zip
         file_zip = '%s.%s' % (file_zip, zip_ext)
         shutil.move(file_zip, _get_waiting_file(file_path, importer))
     else:
         shutil.copy(file_path, _get_waiting_file(file_path, importer))
 
 
-# Avvio thread di monitoraggio della directory di lavoro.
-sender = Thread(target=_uploading)
-sender.daemon = True
-sender.start()
+_sender = threading.Thread(target=_uploading)
+_sender.daemon = True

@@ -1,8 +1,8 @@
 import io
+import threading
 import wx
 
 from Queue import Queue
-from threading import Thread
 from wx.lib.newevent import NewEvent
 
 from gui.agaimp_gui import FrmSrvMsg
@@ -67,7 +67,7 @@ class MessageViewer(object):
             self._monitor.join()
 
     def _get_monitor(self):
-        monitor = Thread(target=self._run)
+        monitor = threading.Thread(target=self._run)
         monitor.daemon = True
         return monitor
 

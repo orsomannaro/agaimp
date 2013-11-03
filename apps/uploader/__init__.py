@@ -81,16 +81,9 @@ def _upload():
         importer = _get_importer(file_path)
         if importer in get_auth_servers():
             url = '%s/api/v0/agent/%s/send/' % (site, uuid)
-            payload = {'importer': importer, 'filepath': file_path}
-
-            print 'url: %s' % url
-            print 'payload: %s' % payload
-
-            r = requests.post(url, data=payload)
-
-            print 'status: %s' % r.status_code
-
-            if r.status_code == requests.codes.ok:
+            req = requests.post(url, data={'importer': importer}, files={'filepath': open(file_path)})
+            print req.text
+            if req.status_code == requests.codes.ok:
                 os.remove(file_path)
         else:
             os.remove(file_path)

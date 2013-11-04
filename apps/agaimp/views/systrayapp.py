@@ -7,7 +7,6 @@ class SystrayApp(wx.TaskBarIcon):
     """
     App sulla barra delle notifiche.
     """
-
     def __init__(self, icon, tooltip, menu, frame=None):
         wx.TaskBarIcon.__init__(self)
         self.frame = wx.Frame(None)  # serve su OSX altrimenti MainLoop termina
@@ -40,8 +39,7 @@ class SystrayApp(wx.TaskBarIcon):
         wx.CallAfter(self.Destroy)
 
     def icon(self, icon_file, icon_tooltip):
-        """ Imposta icona e tooltip.
-        """
+        """ Imposta icona e tooltip """
         if self._current_icon != icon_file:
             try:
                 icon = get_wx_icon(icon_file)

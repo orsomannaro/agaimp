@@ -15,11 +15,8 @@ from .. import Importer
 
 ID_IMPORTER = 'sai_sigma'  # importers ID su aGain
 
-#SIGMA_USR = 'sigmaout'
-#SIGMA_PWD = 'fondisai'
-#SIGMA_FILE = 'dtwhouse.dwh'
-SIGMA_USR = 'leandro'
-SIGMA_PWD = 'L34ndr0-2009'
+SIGMA_USR = 'sigmaout'
+SIGMA_PWD = 'fondisai'
 SIGMA_FILE = 'dtwhouse.dwh'
 
 site = localparam.params[PARAM_IP_SIGMA]
@@ -37,7 +34,8 @@ class SigmaImporter(Importer):
         self.message.log('Inizio import')
         file_path = os.path.join(download_dir, SIGMA_FILE)
         try:
-            ftp_download(file_path, site, user=SIGMA_USR, password=SIGMA_PWD)
+            #ftp_download(file_path, site, user=SIGMA_USR, password=SIGMA_PWD)
+            ftp_download(file_path, '192.168.1.11', user='leandro', password='L34ndr0-2009', remote_dir='home')
         except:
             self.message.error('Errore su import')
         else:

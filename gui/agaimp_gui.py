@@ -106,18 +106,6 @@ class FrmSettings ( wx.Frame ):
 		self.pnl_common = wx.Panel( self.nb_settings, wx.ID_ANY, wx.DefaultPosition, wx.DefaultSize, wx.TAB_TRAVERSAL )
 		szr_common = wx.BoxSizer( wx.VERTICAL )
 		
-		szr_uuid = wx.BoxSizer( wx.HORIZONTAL )
-		
-		self.lbl_uuid = wx.StaticText( self.pnl_common, wx.ID_ANY, u"                 ID", wx.DefaultPosition, wx.DefaultSize, 0 )
-		self.lbl_uuid.Wrap( -1 )
-		szr_uuid.Add( self.lbl_uuid, 0, wx.ALL|wx.ALIGN_CENTER_VERTICAL, 5 )
-		
-		self.param_uuid = wx.TextCtrl( self.pnl_common, wx.ID_ANY, wx.EmptyString, wx.DefaultPosition, wx.DefaultSize, wx.TE_READONLY )
-		szr_uuid.Add( self.param_uuid, 1, wx.ALL|wx.ALIGN_CENTER_VERTICAL, 5 )
-		
-		
-		szr_common.Add( szr_uuid, 0, wx.EXPAND, 5 )
-		
 		szr_usr = wx.BoxSizer( wx.HORIZONTAL )
 		
 		self.lbl_usr = wx.StaticText( self.pnl_common, wx.ID_ANY, u"       Utente", wx.DefaultPosition, wx.DefaultSize, 0 )
@@ -141,6 +129,18 @@ class FrmSettings ( wx.Frame ):
 		
 		
 		szr_common.Add( szr_pwd, 0, wx.EXPAND, 5 )
+		
+		szr_uuid = wx.BoxSizer( wx.HORIZONTAL )
+		
+		self.lbl_uuid = wx.StaticText( self.pnl_common, wx.ID_ANY, u"                 ID", wx.DefaultPosition, wx.DefaultSize, 0 )
+		self.lbl_uuid.Wrap( -1 )
+		szr_uuid.Add( self.lbl_uuid, 0, wx.ALL|wx.ALIGN_CENTER_VERTICAL, 5 )
+		
+		self.param_uuid = wx.TextCtrl( self.pnl_common, wx.ID_ANY, wx.EmptyString, wx.DefaultPosition, wx.DefaultSize, wx.TE_READONLY )
+		szr_uuid.Add( self.param_uuid, 1, wx.ALL|wx.ALIGN_CENTER_VERTICAL, 5 )
+		
+		
+		szr_common.Add( szr_uuid, 0, wx.EXPAND, 5 )
 		
 		
 		self.pnl_common.SetSizer( szr_common )

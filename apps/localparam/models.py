@@ -1,33 +1,35 @@
 """
 Gestione dei parametri LOCAL_PARAMETERS su file in formato json.
+
+Istanziando un oggetto LocalParam i parametri sono disponibili
+ come dizionario tramite il suo attributo 'params'.
+
 """
+
+import json
 
 
 class LocalParam(object):
     """ Parametri locali """
-    def __init__(self, file_name, default_params):
-        self.file = file_name  # full path
+    def __init__(self, file_path, default_params):
+        self._file = file_path  # full path
         self.params = default_params  # parametri di default
         self.load()
 
     def load(self):
         """ Carica i parametri dal file """
-        import json
-
         try:
-            with open(self.file, 'r') as f:
+            with open(self._file) as f:
                 json_param = json.load(f)
             self.params = json.loads(json_param)
-        except IOError:
-            self.save()  # crea il file se non esiste
+        except IOError:  # il file se non esiste
+            self.save()  # crea parametri di default
 
     def save(self):
         """ Salva i parametri sul file """
-        import json
-
         try:
             json_param = json.dumps(self.params)
-            with open(self.file, 'w') as f:
+            with open(self._file, 'w') as f:
                 json.dump(json_param, f)
         except IOError:
             raise

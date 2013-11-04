@@ -1,6 +1,6 @@
 import wx
 
-from apps.localparam.controllers import localparam
+from apps import localparam
 from apps.systrayapp.controllers import aGaiMpSysApp
 
 

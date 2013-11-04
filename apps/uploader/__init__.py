@@ -22,7 +22,7 @@ import threading
 from settings import SITE_URL, DATA_UPLOAD_DIR
 
 from apps.localparam import PARAM_UUID
-from apps.localparam.controllers import localparam
+from apps import localparam
 from apps.userauth import get_importers
 
 
@@ -30,7 +30,7 @@ CHECK_FREQ = 5
 
 site = SITE_URL
 upload_dir = DATA_UPLOAD_DIR
-uuid = localparam.params[PARAM_UUID]
+uuid = localparam.get(PARAM_UUID)
 
 uploading_fixed_name = uuid
 separator = '_-__-_'

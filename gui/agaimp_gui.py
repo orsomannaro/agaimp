@@ -98,9 +98,9 @@ class FrmSettings ( wx.Frame ):
 		szr_main = wx.BoxSizer( wx.VERTICAL )
 		
 		self.pnl_main = wx.Panel( self, wx.ID_ANY, wx.DefaultPosition, wx.DefaultSize, wx.TAB_TRAVERSAL )
-		szr_srv_msg = wx.BoxSizer( wx.VERTICAL )
-		
 		szr_settings = wx.BoxSizer( wx.VERTICAL )
+		
+		szr_data = wx.BoxSizer( wx.VERTICAL )
 		
 		self.nb_settings = wx.Notebook( self.pnl_main, wx.ID_ANY, wx.DefaultPosition, wx.DefaultSize, 0 )
 		self.pnl_common = wx.Panel( self.nb_settings, wx.ID_ANY, wx.DefaultPosition, wx.DefaultSize, wx.TAB_TRAVERSAL )
@@ -108,7 +108,7 @@ class FrmSettings ( wx.Frame ):
 		
 		szr_uuid = wx.BoxSizer( wx.HORIZONTAL )
 		
-		self.lbl_uuid = wx.StaticText( self.pnl_common, wx.ID_ANY, u"Importer ID", wx.DefaultPosition, wx.DefaultSize, 0 )
+		self.lbl_uuid = wx.StaticText( self.pnl_common, wx.ID_ANY, u"                 ID", wx.DefaultPosition, wx.DefaultSize, 0 )
 		self.lbl_uuid.Wrap( -1 )
 		szr_uuid.Add( self.lbl_uuid, 0, wx.ALL|wx.ALIGN_CENTER_VERTICAL, 5 )
 		
@@ -117,6 +117,30 @@ class FrmSettings ( wx.Frame ):
 		
 		
 		szr_common.Add( szr_uuid, 0, wx.EXPAND, 5 )
+		
+		szr_usr = wx.BoxSizer( wx.HORIZONTAL )
+		
+		self.lbl_usr = wx.StaticText( self.pnl_common, wx.ID_ANY, u"       Utente", wx.DefaultPosition, wx.DefaultSize, 0 )
+		self.lbl_usr.Wrap( -1 )
+		szr_usr.Add( self.lbl_usr, 0, wx.ALL|wx.ALIGN_CENTER_VERTICAL, 5 )
+		
+		self.param_usr = wx.TextCtrl( self.pnl_common, wx.ID_ANY, wx.EmptyString, wx.DefaultPosition, wx.DefaultSize, 0 )
+		szr_usr.Add( self.param_usr, 1, wx.ALL|wx.ALIGN_CENTER_VERTICAL, 5 )
+		
+		
+		szr_common.Add( szr_usr, 0, wx.EXPAND, 5 )
+		
+		szr_pwd = wx.BoxSizer( wx.HORIZONTAL )
+		
+		self.lbl_pwd = wx.StaticText( self.pnl_common, wx.ID_ANY, u"Password", wx.DefaultPosition, wx.DefaultSize, 0 )
+		self.lbl_pwd.Wrap( -1 )
+		szr_pwd.Add( self.lbl_pwd, 0, wx.ALL|wx.ALIGN_CENTER_VERTICAL, 5 )
+		
+		self.param_pwd = wx.TextCtrl( self.pnl_common, wx.ID_ANY, wx.EmptyString, wx.DefaultPosition, wx.DefaultSize, 0 )
+		szr_pwd.Add( self.param_pwd, 1, wx.ALL|wx.ALIGN_CENTER_VERTICAL, 5 )
+		
+		
+		szr_common.Add( szr_pwd, 0, wx.EXPAND, 5 )
 		
 		
 		self.pnl_common.SetSizer( szr_common )
@@ -164,10 +188,10 @@ class FrmSettings ( wx.Frame ):
 		szr_sigma.Fit( self.pnl_sigma )
 		self.nb_settings.AddPage( self.pnl_sigma, u"SIGMA", False )
 		
-		szr_settings.Add( self.nb_settings, 1, wx.EXPAND |wx.ALL, 5 )
+		szr_data.Add( self.nb_settings, 1, wx.EXPAND |wx.ALL, 5 )
 		
 		
-		szr_srv_msg.Add( szr_settings, 1, wx.EXPAND, 5 )
+		szr_settings.Add( szr_data, 1, wx.EXPAND, 5 )
 		
 		szr_buttons = wx.BoxSizer( wx.HORIZONTAL )
 		
@@ -182,12 +206,12 @@ class FrmSettings ( wx.Frame ):
 		szr_buttons.Add( self.btn_cancel, 0, wx.ALL, 5 )
 		
 		
-		szr_srv_msg.Add( szr_buttons, 0, wx.EXPAND, 5 )
+		szr_settings.Add( szr_buttons, 0, wx.EXPAND, 5 )
 		
 		
-		self.pnl_main.SetSizer( szr_srv_msg )
+		self.pnl_main.SetSizer( szr_settings )
 		self.pnl_main.Layout()
-		szr_srv_msg.Fit( self.pnl_main )
+		szr_settings.Fit( self.pnl_main )
 		szr_main.Add( self.pnl_main, 1, wx.ALL|wx.EXPAND, 5 )
 		
 		

@@ -6,7 +6,7 @@ from settings import DATA_UPLOAD_DIR
 
 from apps import uploader
 from apps.localparam import PARAM_IP_SIGMA
-from apps.localparam.controllers import localparam
+from apps import localparam
 
 from libs.utils import ftp_download
 
@@ -19,7 +19,7 @@ SIGMA_USR = 'sigmaout'
 SIGMA_PWD = 'fondisai'
 SIGMA_FILE = 'dtwhouse.dwh'
 
-site = localparam.params[PARAM_IP_SIGMA]
+site = localparam.get(PARAM_IP_SIGMA)
 download_dir = DATA_UPLOAD_DIR
 
 

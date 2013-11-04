@@ -2,19 +2,13 @@
 Gestione dei parametri LOCAL_PARAMETERS su file in formato json.
 """
 
-from . import LOCAL_PARAMETERS
-from .views import aGaiMpFrmSettings
-
 
 class LocalParam(object):
     """ Parametri locali """
-    def __init__(self, file_name):
+    def __init__(self, file_name, default_params):
         self.file = file_name  # full path
-        self.params = LOCAL_PARAMETERS  # parametri di default
+        self.params = default_params  # parametri di default
         self.load()
-
-    def edit(self):
-        aGaiMpFrmSettings(None, self)
 
     def load(self):
         """ Carica i parametri dal file """

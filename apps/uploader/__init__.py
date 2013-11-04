@@ -1,16 +1,16 @@
 """
-Gestione upload su server aGain dei file letti dagli importer.
+Gestione upload su aGain.
 
-I file da inviare vengono copiati in una directory di lavoro
- e rinominati <nome file>_<importer>.agaimp
+upload():
+ i file da inviare vengono copiati nella directory di lavoro
+  aggiungendo al nome il suffisso <separatore><importer>
+  e l'estensione '.agaimp'
 
-La directory di lavoro viene monitorata verificando la presenza di file .agaimp
- i quali, uno alla volta, vengono inviati al server aGain.
+La directory di lavoro viene monitorata verificando la presenza di file '*.agaimp'
+ i quali, uno alla volta, vengono uploadati su aGain.
 
-Un file in fase di invio viene rinominato come <uuid installazione>_<importer>.again
+Un file in fase di upload viene rinominato con estensione '.again'
 
-La funzione di invio fa l'upload su aGain dei file <uuid installazione>_<importer>.again
- presenti nella directory di lavoro.
 """
 
 import os

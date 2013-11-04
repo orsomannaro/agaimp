@@ -6,10 +6,10 @@ from apscheduler.scheduler import Scheduler
 
 from settings import *
 
+from apps import server  # prima di import e uploader
 from apps import importer
 from apps import uploader
 from apps.agaimp.controllers import aGaiMp
-from apps.server import servers_publisher
 
 
 if __name__ == '__main__':
@@ -20,7 +20,7 @@ if __name__ == '__main__':
 
     # App
     agaimp = aGaiMp()
-    servers_publisher.subscribe(agaimp)
+    server.servers_publisher.subscribe(agaimp)
 
     importer.start()
     uploader.start()

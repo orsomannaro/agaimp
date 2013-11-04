@@ -82,7 +82,13 @@ def _upload():
         if importer in get_auth_servers():
             url = '%s/api/v0/agent/%s/send/' % (site, uuid)
             req = requests.post(url, data={'importer': importer}, files={'filepath': open(file_path)})
-            print req.text
+
+            # --- debug ---
+            print url
+            with open(os.path.join(upload_dir, '../reg.html'), 'w') as f:
+                f.write(req.text)
+            # --- (debug) ---
+
             if req.status_code == requests.codes.ok:
                 os.remove(file_path)
         else:

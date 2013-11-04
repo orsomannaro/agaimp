@@ -1,5 +1,24 @@
 import ftplib
+import hashlib
 import os
+
+
+# -------------------- md5 --------------------
+def md5(file_path):
+    """ Calcola md5 anche di file di grandi dimensioni
+    @param file_path: file di cui calcolare md5
+    """
+    BLOCKSIZE = 65536
+    hasher = hashlib.md5()
+
+    with open(file_path, 'rb') as f:
+        buf = f.read(BLOCKSIZE)
+        while len(buf) > 0:
+            hasher.update(buf)
+            buf = f.read(BLOCKSIZE)
+    return hasher.hexdigest()
+
+# -------------------- (md5) --------------------
 
 
 # -------------------- ftp_download --------------------

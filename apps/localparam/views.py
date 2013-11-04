@@ -4,6 +4,11 @@ from gui.agaimp_gui import FrmSettings
 
 
 class aGaiMpFrmSettings(FrmSettings):
+    """
+    Editing dei parametri.
+    Sono automaticamente considerati tutti e soli
+     i parametri che hanno un controllo con lo stesso nome.
+    """
     def __init__(self, parent, localparam):
         super(aGaiMpFrmSettings, self).__init__(parent)
         self.Bind(wx.EVT_SHOW, self.OnShow)
@@ -14,8 +19,8 @@ class aGaiMpFrmSettings(FrmSettings):
         self.Close()
 
     def OnSave(self, event):
-        """ Salva i parametri """
-        #TODO: i valori dei parametri devono essere validati prima di salvarli
+        """  Salva i controlli che hanno nome uguale a quello di un parametro """
+        #TODO: validare i dati prima di salvarli
         params_names = self.localparam.params.keys()
         for name in params_names:
             if name in self.__dict__.keys():
@@ -25,10 +30,7 @@ class aGaiMpFrmSettings(FrmSettings):
         self.Close()
 
     def OnShow(self, event):
-        """ Carica i parametri.
-        NB: i nomi dei controlli che nella form sono associati ai parametri
-            devono essere indicati nel file __init__
-        """
+        """  Carica i parametri che hanno nome uguale a quello di un controllo """
         if event.Show:
             params = self.localparam.params.items()
             for name, value in params:

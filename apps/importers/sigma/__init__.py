@@ -8,8 +8,7 @@ from apps import uploader
 from apps import localparam
 
 from .. import Importer, messenger
-from ..utils import ftp_download
-
+from ..utils import ftp_download, md5
 
 
 ID_IMPORTER = 'sai_sigma'  # importers ID su aGain
@@ -18,7 +17,7 @@ SIGMA_USR = 'sigmaout'
 SIGMA_PWD = 'fondisai'
 SIGMA_FILE = 'dtwhouse.dwh'
 
-site = localparam.get(localparam.PARAM_IP_SIGMA)
+site = localparam.get(localparam.PARAM_SIGMA_IP)
 download_dir = DATA_UPLOAD_DIR
 
 
@@ -38,5 +37,8 @@ class SigmaImporter(Importer):
         except:
             messenger.log(self.name, 'Errore su import')
         else:
-            uploader.upload(file_path, ID_IMPORTER)
+            new_md5 = md5(file_path)
+            if new_md5 != localparam.get(localparam.PARAM_SIGMA_MD5):
+                uploader.upload(file_path, ID_IMPORTER)
+                localparam.set(localparam.PARAM_SIGMA_MD5, new_md5)
         messenger.log(self.name, 'Fine import')

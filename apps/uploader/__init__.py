@@ -84,8 +84,8 @@ def _upload():
 
             # --- debug ---
             print url
-            with open(os.path.join(upload_dir, '../reg.html'), 'w') as f:
-                f.write(req.text)
+            #with open(os.path.join(upload_dir, '../reg.html'), 'w') as f:
+            #    f.write(req.text)
             # --- (debug) ---
 
             if req.status_code == requests.codes.ok:

@@ -2,7 +2,7 @@
 
 import time
 
-from .. import Importer
+from .. import Importer, messenger
 
 
 ID_IMPORTER = 'sai_delta'  # importers ID su aGain
@@ -16,8 +16,8 @@ class DeltaImporter(Importer):
         super(DeltaImporter, self).__init__()
 
     def run(self):
-        self.message.log('Inizio import')
+        messenger.log(self.name, 'Inizio import')
         for i in range(1, 10):
-            self.message.log('%s' % i)
+            messenger.log(self.name, '%s' % i)
             time.sleep(1)
-        self.message.log('Fine import')
+        messenger.log(self.name, 'Fine import')

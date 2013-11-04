@@ -15,15 +15,10 @@ import threading
 
 from settings import INSTALLED_IMPORTERS
 
-from libs.utils import Messenger
-from libs.patterns import Publisher
+from .controllers import ImportersPublisher, ImportersMessenger
 
 
 _importers = {}  # importers installati
-
-
-# Publisher per i messaggi dei importers
-importers_publisher = Publisher('importers_publisher')
 
 
 class ImporterMount(type):
@@ -55,18 +50,17 @@ class Importer(object):
     name = ''  # ogni sottoclasse deve avere un nome diverso
 
     def __init__(self):
-        self.message = Messenger(self.name, importers_publisher)
         self._thread = self._new_thread()
 
     def _new_thread(self):
         return threading.Thread(target=self.run)
 
     def run(self):
-        """ Implementazione logica del importers """
+        """ Logica importers """
         pass
 
     def start(self):
-        """ Avvia il importers """
+        """ Avvia importer """
         if not self._thread.is_alive():
             self._thread = self._new_thread()
             self._thread.daemon = True
@@ -83,12 +77,14 @@ def start(name):
     _importers[name].start()
 
 
-# Carica gli importers installati
+publisher = ImportersPublisher('importers_publisher')  # Qui ci si registra per leggere i messaggi dei importers
+messenger = ImportersMessenger(publisher)  # Qui gli importers possono lanciare messaggi
+
+# Caricamento degli importers installati
 for _importer in INSTALLED_IMPORTERS:
     __import__(_importer)
 
-
-# Istanzia gli importers caricati
+# Istanziamento degli importers caricati
 for _class_name, _class_type in ImporterMount.REGISTRY.items():
     _importers[_class_name] = _class_type()
 

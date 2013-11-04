@@ -1,15 +1,15 @@
 """
-Gestione upload file letti dai server di agenzia su server aGain.
+Gestione upload su server aGain dei file letti dagli importer.
 
 I file da inviare vengono copiati in una directory di lavoro
- e rinominati <nome file>_<id_server>.agaimp
+ e rinominati <nome file>_<importer>.agaimp
 
 La directory di lavoro viene monitorata verificando la presenza di file .agaimp
  i quali, uno alla volta, vengono inviati al server aGain.
 
-Un file in fase di invio viene rinominato come <uuid installazione>_<id_server>.again
+Un file in fase di invio viene rinominato come <uuid installazione>_<importer>.again
 
-La funzione di invio fa l'upload su aGain dei file <uuid installazione>_<id_server>.again
+La funzione di invio fa l'upload su aGain dei file <uuid installazione>_<importer>.again
  presenti nella directory di lavoro.
 """
 
@@ -21,7 +21,6 @@ import threading
 
 from settings import SITE_URL, DATA_UPLOAD_DIR
 
-from apps.localparam import PARAM_UUID
 from apps import localparam
 from apps.userauth import get_importers
 
@@ -30,7 +29,7 @@ CHECK_FREQ = 5
 
 site = SITE_URL
 upload_dir = DATA_UPLOAD_DIR
-uuid = localparam.get(PARAM_UUID)
+uuid = localparam.get(localparam.PARAM_UUID)
 
 uploading_fixed_name = uuid
 separator = '_-__-_'

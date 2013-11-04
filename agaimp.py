@@ -25,7 +25,7 @@ if __name__ == '__main__':
 
     # App
     agaimp = aGaiMp()
-    importers.importers_publisher.subscribe(agaimp)
+    importers.publisher.subscribe(agaimp)
 
     start_importer()
     uploader.start()

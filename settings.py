@@ -9,7 +9,7 @@ IMAGES_DIR = os.path.join(ASSETS_DIR, 'img')
 
 DATA_DIR = os.path.join(PROJECT_ROOT, 'data')
 DATA_UPLOAD_DIR = os.path.join(DATA_DIR, 'upload')
-LOGS_DIR = os.path.join(PROJECT_ROOT, 'logs')
+LOGS_DIR = os.path.join(PROJECT_ROOT, 'data/logs')
 
 os.path.exists(DATA_DIR) or os.makedirs(DATA_DIR)
 os.path.exists(DATA_UPLOAD_DIR) or os.makedirs(DATA_UPLOAD_DIR)
@@ -28,7 +28,7 @@ RUN_AT = {
     'm': 30
 }
 
-# Server installati
+# Importers installati
 INSTALLED_IMPORTERS = [
     'apps.importers.delta',
     'apps.importers.sigma',

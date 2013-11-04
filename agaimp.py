@@ -8,7 +8,7 @@ from settings import *
 
 from apps import importers
 from apps import uploader
-from apps.agaimp.controllers import aGaiMp
+from apps.agaimp import aGaiMp
 from apps.userauth import get_importers
 
 

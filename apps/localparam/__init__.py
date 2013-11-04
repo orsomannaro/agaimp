@@ -22,7 +22,7 @@ PARAM_SIGMA_MD5 = 'param_sigma_md5'  # md5 ultimo file uploadato
 _DEFAULT_PARAMETERS = {
     PARAM_USR: '',
     PARAM_PWD: '',
-    PARAM_UUID: str(uuid.uuid4()),
+    PARAM_UUID: str(uuid.uuid4()).replace('-', ''),
     PARAM_DELTA_IP: '0.0.0.0',
     PARAM_SIGMA_IP: '0.0.0.0',
     PARAM_SIGMA_MD5: '',
@@ -41,5 +41,5 @@ def get(param):
 
 def set(param, new_value):
     _localparam = LocalParam(os.path.join(DATA_DIR, PARAM_FILE), _DEFAULT_PARAMETERS)
-    _localparam[param] = new_value
+    _localparam.params[param] = new_value
     _localparam.save()

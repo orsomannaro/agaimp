@@ -41,4 +41,8 @@ class SigmaImporter(Importer):
             if new_md5 != localparam.get(localparam.PARAM_SIGMA_MD5):
                 uploader.upload(file_path, ID_IMPORTER)
                 localparam.set(localparam.PARAM_SIGMA_MD5, new_md5)
+                messenger.log(self.name, 'Dati aggiornati!')
+            else:
+                messenger.log(self.name, 'Nessun aggiornamento!')
+            os.remove(file_path)
         messenger.log(self.name, 'Fine import')

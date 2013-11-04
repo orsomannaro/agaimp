@@ -19,7 +19,9 @@ _pwd = ''
 def _read_auth():
     #req = requests.get(_site, auth=(_usr, _pwd))
     #return req.json() if req.ok else {}
-    return {IMPORTS_AUTH: ['sai_delta', 'sai_sigma']}
+
+    #return {IMPORTS_AUTH: ['sai_delta', 'sai_sigma']}
+    return {IMPORTS_AUTH: ['sai_sigma']}
 
 
 def _get_auth(auth):

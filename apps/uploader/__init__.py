@@ -4,7 +4,7 @@ Gestione upload su aGain.
 upload():
  i file da inviare vengono copiati nella directory di lavoro
   aggiungendo al nome il suffisso <separatore><importer>
-  e l'estensione '.agaimp'
+  e estensione '.agaimp'
 
 La directory di lavoro viene monitorata verificando la presenza di file '*.agaimp'
  i quali, uno alla volta, vengono uploadati su aGain.
@@ -84,6 +84,7 @@ def _upload():
 
             # --- debug ---
             print url
+            print req.status_code
             #with open(os.path.join(upload_dir, '../reg.html'), 'w') as f:
             #    f.write(req.text)
             # --- (debug) ---

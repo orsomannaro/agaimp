@@ -2,18 +2,18 @@
 
 import time
 
-from .. import Server
+from .. import Importer
 
 
-ID_SERVER = 'sai_delta'  # server ID su aGain
+ID_IMPORTER = 'sai_delta'  # importers ID su aGain
 
 
-class DeltaServer(Server):
+class DeltaImporter(Importer):
 
-    name = ID_SERVER
+    name = ID_IMPORTER
 
     def __init__(self):
-        super(DeltaServer, self).__init__(ID_SERVER)
+        super(DeltaImporter, self).__init__()
 
     def run(self):
         self.message.log('Inizio import')

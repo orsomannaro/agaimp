@@ -21,7 +21,7 @@ LOGO = os.path.join(IMAGES_DIR, 'logo.png')
 
 SITE_URL = 'http://213.187.9.92'
 
-# Schedulazione esecuzione dei server
+# Schedulazione esecuzione dei importers
 RUN_AT = {
     'd': 'mon-fri',
     'h': 5,
@@ -29,7 +29,7 @@ RUN_AT = {
 }
 
 # Server installati
-INSTALLED_SERVERS = [
-    'apps.server.delta',
-    'apps.server.sigma',
+INSTALLED_IMPORTERS = [
+    'apps.importers.delta',
+    'apps.importers.sigma',
 ]

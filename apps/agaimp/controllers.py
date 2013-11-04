@@ -31,6 +31,6 @@ class aGaiMp(wx.App):
         self.systrayapp.show_messages()
 
     def publish(self, message):
-        """ Messaggi in arrivo dai server """
+        """ Messaggi in arrivo dai importers """
         msg = u'[%s] %s (%s): %s' % (message.time, message.sender, message.level, message.text)
         self.systrayapp.message(msg)

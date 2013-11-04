@@ -23,7 +23,7 @@ from settings import SITE_URL, DATA_UPLOAD_DIR
 
 from apps.localparam import PARAM_UUID
 from apps.localparam.controllers import localparam
-from apps.importer import get_auth_servers
+from apps.userauth import get_importers
 
 
 CHECK_FREQ = 5
@@ -74,14 +74,14 @@ def _upload():
     """
     Considera i file in fase di invio presenti nella directory di lavoro
      (tipicamente uno solo).
-    Controlla se il server e' abilitato all'invio e in caso affermativo
+    Controlla se il importers e' abilitato all'invio e in caso affermativo
      carica il file su aGain.
     """
     for file_path in _list_dir(ready_ext):
         importer = _get_importer(file_path)
-        if importer in get_auth_servers():
+        if importer in get_importers():
             url = '%s/api/v0/agent/%s/send/' % (site, uuid)
-            req = requests.post(url, data={'importer': importer}, files={'filepath': open(file_path)})
+            req = requests.post(url, data={'importers': importer}, files={'filepath': open(file_path)})
 
             # --- debug ---
             print url

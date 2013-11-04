@@ -4,7 +4,7 @@ import os
 
 
 # -------------------- Messenger --------------------
-# Istanziando Messenger si possono inviare Message via publisher
+# Istanziando Messenger si possono inviare messaggi di tipo Message via publisher
 
 
 MSG_LVL_ERR = 'error'

@@ -80,7 +80,7 @@ class MessageViewer(object):
 
 class MessageLogger(object):
     """
-    Gestisce i messaggi in arrivo dai server.
+    Gestisce i messaggi in arrivo dai importers.
     """
 
     def __init__(self, parent):

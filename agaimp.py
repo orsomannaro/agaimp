@@ -6,10 +6,15 @@ from apscheduler.scheduler import Scheduler
 
 from settings import *
 
-from apps import server  # prima di import e uploader
-from apps import importer
+from apps import importers
 from apps import uploader
 from apps.agaimp.controllers import aGaiMp
+from apps.userauth import get_importers
+
+
+def start_importer():
+    for importer in get_importers():
+        importers.start(importer)
 
 
 if __name__ == '__main__':
@@ -20,16 +25,16 @@ if __name__ == '__main__':
 
     # App
     agaimp = aGaiMp()
-    server.servers_publisher.subscribe(agaimp)
+    importers.importers_publisher.subscribe(agaimp)
 
-    importer.start()
+    start_importer()
     uploader.start()
 
     # Scheduler
     sched = Scheduler()
     sched.start()
-    sched.add_interval_job(importer.start, seconds=3)  # solo per test
-    #sched.add_cron_job(importer.execute,
+    sched.add_interval_job(start_importer, seconds=3)  # solo per test
+    #sched.add_cron_job(importers.execute,
     #                   day_of_week=RUN_AT['d'],
     #                   hour=RUN_AT['h'],
     #                   minute=RUN_AT['m'])

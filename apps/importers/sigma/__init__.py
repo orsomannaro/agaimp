@@ -10,25 +10,28 @@ from apps.localparam.controllers import localparam
 
 from libs.utils import ftp_download
 
-from .. import Server
+from .. import Importer
 
 
-ID_SERVER = 'sai_sigma'  # server ID su aGain
+ID_IMPORTER = 'sai_sigma'  # importers ID su aGain
 
-SIGMA_USR = 'sigmaout'
-SIGMA_PWD = 'fondisai'
+#SIGMA_USR = 'sigmaout'
+#SIGMA_PWD = 'fondisai'
+#SIGMA_FILE = 'dtwhouse.dwh'
+SIGMA_USR = 'leandro'
+SIGMA_PWD = 'L34ndr0-2009'
 SIGMA_FILE = 'dtwhouse.dwh'
 
 site = localparam.params[PARAM_IP_SIGMA]
 download_dir = DATA_UPLOAD_DIR
 
 
-class SigmaServer(Server):
+class SigmaImporter(Importer):
 
-    name = ID_SERVER
+    name = ID_IMPORTER
 
     def __init__(self):
-        super(SigmaServer, self).__init__(ID_SERVER)
+        super(SigmaImporter, self).__init__()
 
     def run(self):
         self.message.log('Inizio import')
@@ -38,5 +41,5 @@ class SigmaServer(Server):
         except:
             self.message.error('Errore su import')
         else:
-            uploader.upload(file_path, ID_SERVER)
+            uploader.upload(file_path, ID_IMPORTER)
         self.message.log('Fine import')

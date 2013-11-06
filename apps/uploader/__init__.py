@@ -79,6 +79,8 @@ def _upload():
     for file_path in _list_dir(ready_ext):
         importer = _get_importer(file_path)
         if importer in get_importers():
+            print 'Inizio upload file %s' % file_path
+
             url = '%s/api/v0/agent/%s/send/' % (site, uuid)
             req = requests.post(url, data={'importers': importer}, files={'filepath': open(file_path)})
 
@@ -90,9 +92,13 @@ def _upload():
             # --- (debug) ---
 
             if req.status_code == requests.codes.ok:
+                print 'Upload avvenuto con successo'
                 os.remove(file_path)
+            else:
+                print 'Upload fallito'
         else:
             os.remove(file_path)
+        print 'Fine upload'
 
 
 def _uploading():

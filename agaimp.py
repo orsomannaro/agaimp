@@ -33,7 +33,7 @@ if __name__ == '__main__':
     # Scheduler
     sched = Scheduler()
     sched.start()
-    sched.add_interval_job(start_importer, seconds=3)  # solo per test
+    sched.add_interval_job(start_importer, seconds=60)  # solo per test
     #sched.add_cron_job(importers.execute,
     #                   day_of_week=RUN_AT['d'],
     #                   hour=RUN_AT['h'],

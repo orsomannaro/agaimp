@@ -82,13 +82,14 @@ def _upload():
             print 'Inizio upload file %s' % file_path
 
             url = '%s/api/v0/agent/%s/send/' % (site, uuid)
-            req = requests.post(url, data={'importers': importer}, files={'filepath': open(file_path)})
+            req = requests.post(url, data={'importer': importer}, files={'filepath': open(file_path)})
 
             # --- debug ---
             print url
             print req.status_code
-            #with open(os.path.join(upload_dir, '../reg.html'), 'w') as f:
-            #    f.write(req.text)
+            with open(os.path.join(upload_dir, '../reg.html'), 'w') as f:
+                f.write(req.text)
+            print req.text
             # --- (debug) ---
 
             if req.status_code == requests.codes.ok:
